@@ -1,0 +1,28 @@
+<div class="auth-form-body mt-3">
+	<form class="example-form" [formGroup]="boardsForm" (ngSubmit)="onFormSubmit(boardsForm.value)">
+		<mat-form-field class="example-full-width">
+			<input matInput placeholder="Email" formControlName="email" [errorStateMatcher]="matcher" />
+      <mat-error>
+        <span *ngIf="
+            !boardsForm.get('email').valid && boardsForm.get('email').touched
+          ">Please enter email</span>
+      </mat-error>
+    </mat-form-field>
+    <br />
+    <mat-form-field class="example-full-width">
+      <input matInput type="password" placeholder="Password" formControlName="password" [errorStateMatcher]="matcher" />
+      <mat-error>
+        <span *ngIf="!boardsForm.get('password').valid && boardsForm.get('password').touched">Please enter password</span>
+      </mat-error>
+    </mat-form-field>
+    <p style="text-align: center; color: red;">{{message | uppercase}}</p>
+    <br />
+    <input type="submit" [disabled]="!boardsForm.valid" name="signin" value="Login" tabindex="3" class="btn btn-primary btn-block"
+    data-disable-with="Signing in…">
+  </form>
+  <br />
+  <input type="submit" routerLink="/signup" name="signup" value="Register" tabindex="3" class="btn btn-info btn-block"
+    data-disable-with="Please wait…"> <br />
+  <input type="submit" routerLink="/passwordforgot" name="forgotpassword" value="Forgot Password" tabindex="3"
+    class="btn btn-info btn-block" data-disable-with="Please wait…">
+</div>

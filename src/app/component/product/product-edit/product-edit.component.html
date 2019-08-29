@@ -1,0 +1,165 @@
+<div>
+	<button
+    class="btn btn-info btnmargin"
+    (click)="list()"
+  >
+    List
+  </button>
+  <button
+    class="btn btn-primary btnmargin"
+    (click)="new()"
+  >
+    New
+  </button>
+</div>
+<form class="form-row" [formGroup]="productForm" (ngSubmit)="onFormSubmit(productForm.value)">
+	<div class="col-md-6 mb-3">
+		<mat-form-field class="example-full-width">
+			<input
+        matInput
+        placeholder="Product Name"
+        formControlName="name"
+        [errorStateMatcher]="matcher"
+      />
+      <mat-error>
+        <span
+          *ngIf="!productForm.get('name').valid && productForm.get('name').touched"
+          >Enter Product Name</span
+        >
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+   <div class="col-md-6 mb-3">
+      <mat-form-field class="example-full-width">
+        <input
+        matInput
+        placeholder="Product Brand"
+        formControlName="brand"
+        [errorStateMatcher]="matcher"
+      />
+      <mat-error>
+        <span
+          *ngIf="!productForm.get('brand').valid && productForm.get('brand').touched"
+          >Enter product brand</span
+        >
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-4 mb-3">
+      <mat-form-field class="example-full-width">
+        <input
+        class="inputright"
+        matInput
+        placeholder="Price"
+        formControlName="price"
+        type="number" min="0" max="9999999999"
+        [errorStateMatcher]="matcher"
+        (ngModelChange)="updateTotalPrice()"
+      />
+      <mat-error>
+        <span
+          *ngIf="!productForm.get('price').valid && productForm.get('price').touched"
+          >Enter product price</span
+        >
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+
+ <div class="col-md-4 mb-3">
+      <mat-form-field class="example-full-width">
+        <input
+        class="inputright"
+        matInput
+        placeholder="Discount"
+        formControlName="discount"
+        type="number" min="0" max="9999999999"
+        [errorStateMatcher]="matcher"
+        (ngModelChange)="updateTotalPrice()"
+      />
+      <mat-error>
+        <span
+          *ngIf="!productForm.get('discount').valid && productForm.get('discount').touched"
+          >Enter product discount</span
+        >
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-4 mb-3">
+     <p class="inputright topmargin15px">Total Price : {{totalPrice}} ₹ </p>
+  </div>
+
+ <div class="col-md-12 mb-3">
+      <mat-form-field class="example-full-width">
+       <textarea
+       rows="5"
+        matInput
+        placeholder="Product description"
+        formControlName="description"
+        [errorStateMatcher]="matcher"
+       ></textarea>
+      <mat-error>
+        <span
+          *ngIf="!productForm.get('description').valid && productForm.get('description').touched"
+          >Enter product description</span
+        >
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-12 mb-3">
+    <mat-form-field class="example-full-width">
+      <input
+        matInput
+        placeholder="Product image URL"
+        formControlName="image"
+        [errorStateMatcher]="matcher"
+      />
+      <mat-error>
+        <span
+          *ngIf="!productForm.get('image').valid && productForm.get('image').touched"
+          >Enter Image URL</span
+        >
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <!-- <div class="col-md-6 mb-3">
+    <mat-form-field class="example-full-width">
+      <input
+        matInput
+        placeholder="email"
+        formControlName="email"
+        [errorStateMatcher]="matcher"
+      />
+      <mat-error>
+        <span
+          *ngIf="!productForm.get('email').valid && productForm.get('email').touched"
+          >Enter email</span
+        >
+      </mat-error>
+    </mat-form-field>
+  </div>  -->
+
+
+
+
+<br/>
+<div class="button-right">
+  <button
+      style="margin-bottom:10px;"
+      class="btn btn-success"
+      type="submit"
+      [disabled]="!productForm.valid"
+    >Save</button>
+  <button
+    *ngIf="this.isSaved"
+    class="btn btn-warning btnmargin"
+    (click)="delete()"
+    [disabled]="!productForm.valid"
+  >Delete</button>
+</div>
+</form>

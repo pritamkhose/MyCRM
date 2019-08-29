@@ -1,0 +1,44 @@
+section div p{
+  color: #3f51b5;
+  font-size: 30px;
+  text-shadow: 2px 3px 5px grey;
+  /* margin: 30px 0; */
+}
+
+section div + p{
+  color: #3f51b5;
+  font-weight: bold;
+  font-size: 20px;
+  padding-bottom: 20px;
+}
+
+mat-tab-group {
+  text-align: center;
+}
+
+mat-tab-group p {
+  padding-top: 20px;
+}
+
+button {
+/* height: 300%; */
+margin-left: 20px;
+margin-bottom: 2px;
+}
+
+.home {
+  color: #3f51b5;
+  font-size: 20px;
+  text-shadow: 2px 3px 5px grey;
+  text-align: center;
+  padding: 4px;
+}
+
+mat-card {
+padding: 5px;
+margin-bottom: 5px;
+}
+
+.inline {
+  display: inline-block;
+}

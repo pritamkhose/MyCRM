@@ -1,0 +1,70 @@
+<div class="button-row">
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-info"
+           (click)="refresh()">
+          Refresh
+  </button>
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-primary"
+           (click)="new()">
+          New
+  </button>
+</div>
+<!-- <div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>No.</th>
+				<th>Name</th>
+				<th>Price</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="
+    let aObj of aList;
+    let i = index
+  " [attr.data-index]="i">
+				<td>{{i+1}}</td>
+				<td><a routerLink="/product/{{aObj._id}}">{{aObj.name}}</a></td>
+				<td><a routerLink="/product/{{aObj._id}}">{{aObj.price}}</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div> -->
+
+<!-- <div class="card-deck">
+  <div class="card" *ngFor="let aObj of aList;let i = index " [attr.data-index]="i">
+    <img class="card-img-top" src="{{aObj.image}}" alt="{{aObj.name}} | {{aObj.brand}}">
+    <div class="card-body">
+      <h5 class="card-title">{{aObj.name}}</h5>
+      <h6 class="card-subtitle">{{aObj.brand}}</h6>
+      <p class="card-text">{{aObj.description}}</p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">{{aObj.price}} </small>
+    </div>
+  </div>
+</div> -->
+
+
+<div  class="row">
+  <div  class="col-auto mb-3" *ngFor="let aObj of aList;let i = index " [attr.data-index]="i" (click)="OnClickEvent(aObj, i)">
+    <div  class="card" style="height: 100%; width: 18rem;">
+        <div  class="card-body">
+          <h6  class="card-subtitle mb-2">{{aObj.name}}</h6>
+          <table>
+              <tbody >
+                <tr >
+                    <td >
+                      <figure  class="card__thumbnail" style="margin-right: 10px;"><img  height="60px" width="60px" src="{{aObj.image}}" alt="{{aObj.name}}"></figure>
+                    </td>
+                    <td >
+                      <p><b>{{aObj.brand}}</b><span  class="pull-right" style="color: blueviolet;">{{aObj.price}} ₹</span><br >{{aObj.description}} </p>
+                    </td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+    </div>
+  </div>
+</div>

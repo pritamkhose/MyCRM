@@ -1,0 +1,41 @@
+<div class="auth-form-body mt-3">
+  <form class="example-form" [formGroup]="aForm" (ngSubmit)="onFormSubmit(aForm.value)">
+    <mat-form-field class="example-full-width">
+			<input matInput placeholder="Email" formControlName="email" [errorStateMatcher]="matcher" />
+      <mat-error>
+        <span *ngIf="
+            !aForm.get('email').valid && aForm.get('email').touched
+          ">Please enter email</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Username" formControlName="username" [errorStateMatcher]="matcher" />
+      <mat-error>
+        <span *ngIf="!aForm.get('username').valid && aForm.get('username').touched">Please enter username</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+			<input matInput  minlength = "3" maxlength="20" type="password" placeholder="New Password" formControlName="password" [errorStateMatcher]="matcher" />
+      <mat-error>
+        <span *ngIf="
+            !aForm.get('password').valid && aForm.get('password').touched
+          ">Please enter new password</span>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+			<input matInput minlength = "3" maxlength="20" type="password" placeholder="Repeat New Password" formControlName="repeatpassword" [errorStateMatcher]="matcher" />
+      <mat-error>
+        <span *ngIf="
+            !aForm.get('repeatpassword').valid && aForm.get('repeatpassword').touched
+          ">Please enter repeat password</span>
+      </mat-error> 
+    </mat-form-field>
+    <p style="text-align: center; color: red;">{{message | uppercase}}</p>
+    <br />
+    <input type="submit" [disabled]="!aForm.valid" name="submit" value="Register" tabindex="3" class="btn btn-primary btn-block"
+    data-disable-with="Signing in…">
+  </form>
+    <br />
+  <input type="submit" routerLink="/login" name="signin" value="Login" tabindex="3" class="btn btn-info btn-block"
+    data-disable-with="Signing in…">
+</div>
