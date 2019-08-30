@@ -1,0 +1,27 @@
+E:\Code\Java\AngularCLI\CRM\MyCRM>ng build --prod
+
+chunk {0} runtime-es2015.27965c48d77c449cb93c.js (runtime) 1.41 kB [entry] [rendered]
+chunk {1} main-es2015.0b07ad18f5a0d3205a33.js (main) 1.26 MB [initial] [rendered]
+chunk {2} polyfills-es2015.9aaba84b721d907ae919.js (polyfills) 36.4 kB [initial] [rendered]
+chunk {3} styles.09e2c710755c8867a460.css (styles) 0 bytes [initial] [rendered]
+Date: 2019-08-30T03:38:39.411Z - Hash: 9af395bd0987daa2095d - Time: 68303ms
+
+chunk {0} runtime-es5.ee2dcdf2e59a31c9da78.js (runtime) 1.41 kB [entry] [rendered]
+chunk {1} main-es5.38a992fdbcbc3c55d3e3.js (main) 1.35 MB [initial] [rendered]
+chunk {2} polyfills-es5.a5ec2c5f9c4a8eba6d56.js (polyfills) 118 kB [initial] [rendered]
+Date: 2019-08-30T03:39:28.250Z - Hash: cf6510e000d02fe178b5 - Time: 48708ms
+
+E:\Code\Java\AngularCLI\CRM\MyCRM>ng build --prod --output-path docs --base-href /MyCRM/
+
+chunk {0} runtime-es2015.27965c48d77c449cb93c.js (runtime) 1.41 kB [entry] [rendered]
+chunk {1} main-es2015.0b07ad18f5a0d3205a33.js (main) 1.26 MB [initial] [rendered]
+chunk {2} polyfills-es2015.9aaba84b721d907ae919.js (polyfills) 36.4 kB [initial] [rendered]
+chunk {3} styles.09e2c710755c8867a460.css (styles) 0 bytes [initial] [rendered]
+Date: 2019-08-30T03:54:35.091Z - Hash: 9af395bd0987daa2095d - Time: 49458ms
+
+chunk {0} runtime-es5.ee2dcdf2e59a31c9da78.js (runtime) 1.41 kB [entry] [rendered]
+chunk {1} main-es5.38a992fdbcbc3c55d3e3.js (main) 1.35 MB [initial] [rendered]
+chunk {2} polyfills-es5.a5ec2c5f9c4a8eba6d56.js (polyfills) 118 kB [initial] [rendered]
+Date: 2019-08-30T03:55:18.251Z - Hash: cf6510e000d02fe178b5 - Time: 43021ms
+
+E:\Code\Java\AngularCLI\CRM\MyCRM>

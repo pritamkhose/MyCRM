@@ -5,11 +5,15 @@ mat-sidenav-container, mat-sidenav-content, mat-sidenav {
     height: 100%;
 }
 
+.mat-drawer-content {
+  display: contents;
+}
+
 mat-sidenav {
     width: 250px;
 }
 
 main {
-    padding: 10px;
-    min-height: 78%;
+    min-height: 81vh;
 }
+
