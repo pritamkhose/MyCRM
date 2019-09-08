@@ -8,7 +8,7 @@
       <a routerLink="/home">MyAPP</a>
       <span>&nbsp;&nbsp;&nbsp;</span>
   </div>
-   <div fxFlex fxLayout fxHide.xs>
+   <div *ngIf="isValidLogin" fxFlex fxLayout fxHide.xs>
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
           <li>
              <a routerLink="/contact"><mat-icon>assignment_ind</mat-icon>Contact</a>
@@ -28,13 +28,21 @@
       <ul fxLayout fxLayoutGap="15px" class="navigation-items">
            <li>
                 <mat-list-item [matMenuTriggerFor]="menu">
-                  <a matline><mat-icon>account_circle</mat-icon>{{loginUserName | uppercase}}</a>
+                  <a matline><span *ngIf="profilePic ; else elseBlock">
+                    <img src="{{profilePic}}" style="width:20px;height:20px; margin: 5px;"></span>
+                    {{loginUserName}}</a>
                 </mat-list-item>
                 <mat-menu #menu="matMenu">
-                  <button routerLink="/profile" mat-menu-item><mat-icon>account_circle</mat-icon>View profile</button>
-                  <button routerLink="/login" mat-menu-item><mat-icon>logout</mat-icon>Logout</button>
+                  <button *ngIf="!isValidLogin" routerLink="/login" mat-menu-item><mat-icon>logout</mat-icon>Login</button>
+                  <button *ngIf="!isValidLogin" routerLink="/signup" mat-menu-item><mat-icon>person_add</mat-icon>Register</button>
+                  <button *ngIf="isValidLogin" routerLink="/profile" mat-menu-item><mat-icon>account_circle</mat-icon>View profile</button>
+                  <button *ngIf="isValidLogin" (click)="logout()" mat-menu-item><mat-icon>logout</mat-icon>Logout</button>
                 </mat-menu>
           </li>
       </ul>
   </div>
 </mat-toolbar>
+
+<ng-template #elseBlock>
+    <mat-icon>account_circle</mat-icon>
+</ng-template>

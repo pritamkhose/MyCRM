@@ -49,6 +49,14 @@ export class LoginService {
     );
   }
 
+  public setRegisterSocialsign(data) {
+    return this.http.post(
+      environment.aBaseUrl + 'RestAPIMongoDB?Database=nodeMongo&Collection=users',
+      JSON.stringify(data),
+      httpOptions
+    );
+  }
+
   public getUserInfo() {
     let token = this.aLocalStorageService.getToken();
     if (token != undefined && token != null && token.trim().length > 1) {

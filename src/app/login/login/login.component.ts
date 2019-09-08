@@ -10,6 +10,23 @@ import {
   Validators
 } from '@angular/forms';
 
+// https://stackblitz.com/edit/angularx-social-login
+// https://www.9lessons.info/2018/07/social-login-using-angular-and-restful.html
+// https://www.npmjs.com/package/angularx-social-login
+
+// https://console.developers.google.com/apis/credentials?project=angular-db-fa163
+// client ID= 260588641171-3c0akgkm8j9ubqm6bn3vrqvqq5ou7re5.apps.googleusercontent.com
+// client Secert = ImW-r9lqXv4FWepHwvnGysAr
+// https://developers.facebook.com/apps/489434948455038/settings/basic/
+// App ID= 489434948455038
+
+import { AuthService, SocialUser } from 'angularx-social-login';
+import {
+  GoogleLoginProvider,
+  FacebookLoginProvider,
+  LinkedInLoginProvider
+} from 'angularx-social-login';
+
 import { MyErrorStateMatcher } from '../../util/myerror-state-matcher';
 
 import { LoginService } from '../../service/login.service';
@@ -21,7 +38,6 @@ import { LocalStorageService } from '../../service/local-storage.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   boardsForm: FormGroup;
   _id = '';
   email = '';
@@ -30,41 +46,124 @@ export class LoginComponent implements OnInit {
   aObj: any;
   matcher = new MyErrorStateMatcher();
 
+  user: SocialUser;
 
   constructor(
     private router: Router,
     private aService: LoginService,
     private aLocalStorageService: LocalStorageService,
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder
-    ) { }
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.boardsForm = this.formBuilder.group({
       email: [null, Validators.required],
-      password: [null, Validators.required],
+      password: [null, Validators.required]
+    });
+    this.authService.authState.subscribe(user => {
+      this.user = user;
+      if (user != null) {
+        this.setUser(user);
+      }
     });
   }
 
+  setUser(user): void {
+    // console.log(user);
+    this.aLocalStorageService.setSocialLogin(user);
+    this.aLocalStorageService.emitChange(user.name);
+    this.aLocalStorageService.setLogin(user.name, user.email, user.authToken);
+    const aObj = {
+      username: user.name,
+      email: user.email,
+      password: user.authToken,
+      resetcode: 0,
+      resetTime : null,
+      isActive : true,
+      isSocial : true,
+      info: user
+    };
+    this.aService
+    .setRegisterSocialsign(aObj)
+    .subscribe(
+      (data: any) => {
+        if (data.user != null) {
+          this.router.navigate(['/home/']);
+        } else {
+          this.message = data.error;
+        }
+      },
+      err => {
+        console.error(JSON.stringify(err));
+        alert('Something Went wrong!');
+      }
+    );
+
+  }
+
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
+      x => {
+        this.setUser(x);
+      },
+      err => {
+        console.error(JSON.stringify(err));
+        alert('Something Went wrong!');
+      }
+    );
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
+      x => {
+        this.setUser(x);
+      },
+      err => {
+        console.error(JSON.stringify(err));
+        alert('Something Went wrong!');
+      }
+    );
+  }
+
+  signInWithLinkedIn(): void {
+    this.authService.signIn(LinkedInLoginProvider.PROVIDER_ID).then(
+      x => {
+        this.setUser(x);
+      },
+      err => {
+        console.error(JSON.stringify(err));
+        alert('Something Went wrong!');
+      }
+    );
+  }
+
+  signOut(): void {
+    this.authService.signOut();
+  }
+
   onFormSubmit(form: NgForm) {
-      this.aService
-        .setLogin(form)
-        .subscribe(
-          (data : any) => {
-            // console.log(JSON.stringify(data));
-            if(data.error != null){
-              this.message = data.error;
-              this.aLocalStorageService.clearLogin();
-            } else {
-              this.aLocalStorageService.emitChange(data.username);
-              this.aLocalStorageService.setLogin(data.username, data.email, data.token);
-              this.router.navigate(['/home/']);
-            }
-          },
-          err => {
-            console.error(JSON.stringify(err));
-            alert('Something Went wrong!');
-          }
-        );
-    }
+    this.aService.setLogin(form).subscribe(
+      (data: any) => {
+        // console.log(JSON.stringify(data));
+        if (data.error != null) {
+          this.message = data.error;
+          this.aLocalStorageService.clearLogin();
+        } else {
+          this.aLocalStorageService.emitChange(data.username);
+          this.aLocalStorageService.setLogin(
+            data.username,
+            data.email,
+            data.token
+          );
+          this.router.navigate(['/home/']);
+        }
+      },
+      err => {
+        console.error(JSON.stringify(err));
+        alert('Something Went wrong!');
+      }
+    );
+  }
 }

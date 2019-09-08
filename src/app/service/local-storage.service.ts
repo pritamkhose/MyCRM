@@ -10,6 +10,7 @@ export class LocalStorageService {
   @LocalStorage() username;
   @LocalStorage() email;
   @LocalStorage() token;
+  @LocalStorage() socialLogin;
 
   // https://stackoverflow.com/questions/37662456/angular-2-output-from-router-outlet/41989983
   // Observable string sources
@@ -29,6 +30,7 @@ export class LocalStorageService {
     this.email = null;
     this.token = null;
     this.emitChange(null);
+    this.socialLogin = null;
   }
 
   public clearLogin() {
@@ -36,6 +38,7 @@ export class LocalStorageService {
     this.email = null;
     this.token = null;
     this.emitChange(null);
+    this.socialLogin = null;
   }
 
   public setLogin(user: string, email: string, token: string) {
@@ -79,4 +82,13 @@ export class LocalStorageService {
   public clearSaveList() {
     this.aList = [];
   }
+
+  public getSocialLogin() {
+    return this.socialLogin;
+  }
+
+  public setSocialLogin(aobj: object) {
+    this.socialLogin = aobj;
+  }
+
 }
