@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalStorage, SharedStorage } from 'ngx-store';
+import { LocalStorage, SessionStorage } from 'ngx-store';
 import { Subject, Observable } from 'rxjs';
 
 @Injectable({
@@ -7,10 +7,10 @@ import { Subject, Observable } from 'rxjs';
 })
 export class LocalStorageService {
   @LocalStorage() aList = new Object();
-  @LocalStorage() username;
-  @LocalStorage() email;
-  @LocalStorage() token;
-  @LocalStorage() socialLogin;
+  @SessionStorage() username;
+  @SessionStorage() email;
+  @SessionStorage() token;
+  @SessionStorage() socialLogin;
 
   // https://stackoverflow.com/questions/37662456/angular-2-output-from-router-outlet/41989983
   // Observable string sources
@@ -30,7 +30,7 @@ export class LocalStorageService {
     this.email = null;
     this.token = null;
     this.emitChange(null);
-    this.socialLogin = null;
+    this.socialLogin = [];
   }
 
   public clearLogin() {
@@ -38,7 +38,7 @@ export class LocalStorageService {
     this.email = null;
     this.token = null;
     this.emitChange(null);
-    this.socialLogin = null;
+    this.socialLogin = [];
   }
 
   public setLogin(user: string, email: string, token: string) {

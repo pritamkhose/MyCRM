@@ -51,7 +51,7 @@ export class LoginService {
 
   public setRegisterSocialsign(data) {
     return this.http.post(
-      environment.aBaseUrl + 'RestAPIMongoDB?Database=nodeMongo&Collection=users',
+      environment.aBaseUrl + 'users/registerSocial',
       JSON.stringify(data),
       httpOptions
     );

@@ -20,6 +20,17 @@ import {
 // https://developers.facebook.com/apps/489434948455038/settings/basic/
 // App ID= 489434948455038
 
+// Login Validate Token for JWT
+// https://www.sitepoint.com/spa-social-login-google-facebook/
+// https://ole.michelsen.dk/blog/social-signin-spa-jwt-server.html
+
+// https://github.com/omichelsen/blog-social-signin-spa-jwt-server/blob/master/api/index.js
+// https://graph.facebook.com/me?access_token=authToken
+
+// https://stackoverflow.com/questions/359472/how-can-i-verify-a-google-authentication-api-access-token
+// https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=authToken
+
+
 import { AuthService, SocialUser } from 'angularx-social-login';
 import {
   GoogleLoginProvider,
@@ -44,6 +55,7 @@ export class LoginComponent implements OnInit {
   password = '';
   message = '';
   aObj: any;
+  acount = 0;
   matcher = new MyErrorStateMatcher();
 
   user: SocialUser;
@@ -85,21 +97,30 @@ export class LoginComponent implements OnInit {
       isSocial : true,
       info: user
     };
-    this.aService
-    .setRegisterSocialsign(aObj)
-    .subscribe(
-      (data: any) => {
-        if (data.user != null) {
-          this.router.navigate(['/home/']);
-        } else {
-          this.message = data.error;
+    if (this.acount === 0) {
+      this.acount = this.acount + 1;
+      this.aService
+      .setRegisterSocialsign(aObj)
+      .subscribe(
+        (data: any) => {
+          if (data != null) {
+            if (data.user.token != null) {
+              this.aLocalStorageService.setToken(data.user.token);
+            }
+            this.router.navigate(['/home/']);
+          } else {
+            console.error(data);
+            this.message = data;
+          }
+
+        },
+        err => {
+          console.error(JSON.stringify(err));
+          alert('Something Went wrong!');
         }
-      },
-      err => {
-        console.error(JSON.stringify(err));
-        alert('Something Went wrong!');
-      }
-    );
+      );
+    }
+
 
   }
 

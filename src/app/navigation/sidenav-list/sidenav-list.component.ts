@@ -27,8 +27,7 @@ export class SidenavListComponent implements OnInit {
   ) {
     aLocalStorageService.changeEmitted$.subscribe(text => {
       if (text != null) {
-        this.isValidLogin = true;
-        this.loginUserName = text.toString();
+        this.onUpdateUserName(text.toString());
       }
     });
   }
@@ -36,43 +35,32 @@ export class SidenavListComponent implements OnInit {
   ngOnInit() {
     this.authService.authState.subscribe(user => {
       this.user = user;
-      let pic = this.aLocalStorageService.getSocialLogin();
-      if (pic != null) {
-        this.profilePic = pic['photoUrl'];
+      const a = this.aLocalStorageService.getUser();
+      if (a !== undefined && a != null && a.trim().length > 1) {
+        this.onUpdateUserName(a);
       }
     });
-    let a = this.aLocalStorageService.getUser();
-    if (a != undefined && a != null && a.trim().length > 1) {
-      this.isValidLogin = true;
-      this.loginUserName = a;
-      let pic = this.aLocalStorageService.getSocialLogin();
-      if (pic != null) {
-        this.profilePic = pic['photoUrl'];
-      }
-    }
   }
 
   public onUpdateUserName(loginUserName: string) {
     this.isValidLogin = true;
     this.loginUserName = loginUserName;
-    let pic = this.aLocalStorageService.getSocialLogin();
+    const pic = this.aLocalStorageService.getSocialLogin();
     if (pic != null) {
         this.profilePic = pic['photoUrl'];
     }
   }
 
   public logout() {
-    // console.log(this.user);
     this.isValidLogin = false;
     this.profilePic = null;
     this.loginUserName = 'Login';
     this.aLocalStorageService.emitChange(null);
+    this.aLocalStorageService.clearLogin();
     this.authService.signOut().then( result => {
-      this.aLocalStorageService.clearLogin();
       this.router.navigate(['/login/']);
     })
     .catch( error =>  {
-      this.aLocalStorageService.clearLogin();
       console.log(error);
       this.router.navigate(['/login/']);
     });
