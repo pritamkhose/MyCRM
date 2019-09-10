@@ -1,1 +1,201 @@
-<p>contact-edit works!</p>
+<div>
+  <button class="btn btn-info btnmargin" (click)="list()">
+    List
+  </button>
+  <button class="btn btn-primary btnmargin" (click)="new()">
+    New
+  </button>
+</div>
+<form class="form-row" [formGroup]="aForm" (ngSubmit)="onFormSubmit(aForm.value)">
+  <div class="col-md-2 mb-3">
+    <mat-form-field class="example-full-width">
+      <mat-label>Title</mat-label>
+      <mat-select id="title" name="title" formControlName="title" [errorStateMatcher]="matcher" required>
+        <mat-option *ngFor="let atitle of titleList" [value]="atitle">
+          {{atitle}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="!aForm.get('title').valid && aForm.get('title').touched">Select Title</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-5 mb-3">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="First Name" formControlName="fname" [errorStateMatcher]="matcher" required />
+      <mat-error>
+        <span *ngIf="!aForm.get('fname').valid && aForm.get('fname').touched">Enter First Name</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-5 mb-3">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Last Name" formControlName="lname" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Company Name" formControlName="company" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-6 mb-3">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Nick Name" formControlName="nickname" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-12 mb-3">
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Profile image URL" formControlName="image" [errorStateMatcher]="matcher" required />
+      <mat-error>
+        <span *ngIf="!aForm.get('image').valid && aForm.get('image').touched">Enter Profile image URL</span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="col-md-12 mb-3">
+    <mat-form-field class="example-full-width">
+      <textarea rows="2" matInput placeholder="Product description" formControlName="description"></textarea>
+    </mat-form-field>
+  </div>
+
+  <mat-card class="col-md-12 mb-3" style="box-sizing: border-box;">
+    <div class="table-responsive form-group">
+      <table class="table">
+        <thead>
+          <div class="row">
+            <h5>Contacts</h5>&nbsp;&nbsp;
+            <mat-icon color="green" (click)='onAddPhoneRow()' *ngIf="aForm.get('contactrows')">add</mat-icon>
+          </div>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of aForm.get('contactrows')?.controls;let index = index;">
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>Contact Type</mat-label>
+                <mat-select [formControl]="row.get('type')" required>
+                  <mat-option *ngFor="let phtype of phoneTypeList" [value]="phtype">
+                    {{phtype}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input [formControl]="row.get('no')" matInput placeholder="Contact Number" [errorStateMatcher]="matcher"
+                  required />
+                <mat-error>
+                  <span *ngIf="!row.get('no').valid && row.get('no').touched">Enter Contact Number</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-checkbox [formControl]="row.get('primary')">Primary</mat-checkbox>
+            </td>
+            <td>
+              <mat-icon color="red" (click)="onRemovePhoneRow(index)">remove</mat-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
+
+  <mat-card class="col-md-12 mb-3" style="box-sizing: border-box;">
+    <div class="table-responsive form-group">
+      <table class="table">
+        <thead>
+          <div class="row">
+            <h5>Email</h5>&nbsp;&nbsp;
+            <mat-icon color="green" (click)='onAddEmailRow()' *ngIf="aForm.get('emailrows')">add</mat-icon>
+          </div>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of aForm.get('emailrows')?.controls;let index = index;">
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>Email Type</mat-label>
+                <mat-select [formControl]="row.get('type')" required>
+                  <mat-option *ngFor="let etype of emailTypeList" [value]="etype">
+                    {{etype}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input [formControl]="row.get('email')" matInput placeholder="Email Number"
+                  [errorStateMatcher]="matcher" required />
+                <mat-error>
+                  <span *ngIf="!row.get('email').valid && row.get('email').touched">Enter email</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-checkbox [formControl]="row.get('primary')">Primary</mat-checkbox>
+            </td>
+            <td>
+              <mat-icon color="red" (click)="onRemoveEmailRow(index)">remove</mat-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
+
+  <mat-card class="col-md-12 mb-3" style="box-sizing: border-box;">
+    <div class="table-responsive form-group">
+      <table class="table">
+        <thead>
+          <div class="row">
+            <h5>Website</h5>&nbsp;&nbsp;
+            <mat-icon color="green" (click)='onAddWebsiteRow()' *ngIf="aForm.get('websiterows')">add</mat-icon>
+          </div>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of aForm.get('websiterows')?.controls;let index = index;">
+            <td>
+              <mat-form-field class="example-full-width">
+                <mat-label>Website Type</mat-label>
+                <mat-select [formControl]="row.get('type')" required>
+                  <mat-option *ngFor="let webtype of websiteTypeList" [value]="webtype">
+                    {{webtype}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="example-full-width">
+                <input [formControl]="row.get('website')" matInput placeholder="Website" [errorStateMatcher]="matcher"
+                  required />
+                <mat-error>
+                  <span *ngIf="!row.get('website').valid && row.get('website').touched">Enter website</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-checkbox [formControl]="row.get('primary')">Primary</mat-checkbox>
+            </td>
+            <td>
+              <mat-icon color="red" (click)="onRemoveWebsiteRow(index)">remove</mat-icon>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
+
+
+  <br />
+  <div class="button-right">
+    <button style="margin-bottom:10px;" class="btn btn-success" type="submit" [disabled]="!aForm.valid">Save</button>
+    <button *ngIf="this.isSaved" class="btn btn-warning btnmargin" (click)="delete()"
+      [disabled]="!aForm.valid">Delete</button>
+
+    <button class="btn btn-warning btnmargin" (click)="test()">test</button>
+  </div>
+</form>

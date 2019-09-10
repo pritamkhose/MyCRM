@@ -1,1 +1,49 @@
-<p>contact works!</p>
+<div class="button-row">
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-info"
+           (click)="refresh()">
+          Refresh
+  </button>
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-primary"
+           (click)="new()">
+          New
+  </button>
+</div>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>No.</th>
+				<th>Name</th>
+				<th>Phone</th>
+        <th>Email</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="
+    let aObj of aList;
+    let i = index
+  " [attr.data-index]="i">
+				<td>{{i+1}}</td>
+				<td><a routerLink="/contact/{{aObj._id}}">{{aObj.name}}</a></td>
+				<td><a routerLink="/contact/{{aObj._id}}">{{aObj.phone}}</a></td>
+        <td><a routerLink="/contact/{{aObj._id}}">{{aObj.email}}</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div> 
+<!-- 
+<div class="card-deck">
+  <div class="card" *ngFor="let aObj of aList;let i = index " [attr.data-index]="i">
+    <img class="card-img-top" src="{{aObj.image}}" alt="{{aObj.name}} | {{aObj.brand}}">
+    <div class="card-body">
+      <h5 class="card-title">{{aObj.name}}</h5>
+      <h6 class="card-subtitle">{{aObj.brand}}</h6>
+      <p class="card-text">{{aObj.description}}</p>
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">{{aObj.price}} </small>
+    </div>
+  </div>
+</div>  -->

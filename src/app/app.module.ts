@@ -34,9 +34,11 @@ import { ReportComponent } from './component/report/report.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { ProductComponent } from './component/product/product.component';
 import { ProductEditComponent } from './component/product/product-edit/product-edit.component';
+
 import { LoginService } from './service/login.service';
 import { LocalStorageService } from './service/local-storage.service';
 import { ProductService } from './service/product.service';
+import { ContactService } from './service/contact.service';
 
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider,
   FacebookLoginProvider, LinkedInLoginProvider  } from 'angularx-social-login';
@@ -99,6 +101,7 @@ export function provideConfig() {
   providers: [
     // UserService,
     ProductService,
+    ContactService,
     // UploadFileService,
     // FcmService,
     LoginService,
