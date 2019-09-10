@@ -24,22 +24,18 @@ import { MyErrorStateMatcher } from '../../../util/myerror-state-matcher';
   styleUrls: ['./product-edit.component.scss']
 })
 export class ProductEditComponent implements OnInit {
+  productForm: FormGroup;
+  aObj: any;
+  matcher = new MyErrorStateMatcher();
+  isSaved = false;
+  totalPrice = 0;
 
   constructor(
     private directrouter: Router,
     private router: ActivatedRoute,
     private aService: ProductService,
     private formBuilder: FormBuilder
-  ) { }
-
-  productForm: FormGroup;
-
-  aObj: any;
-  matcher = new MyErrorStateMatcher();
-  isSaved = false;
-  totalPrice = 0;
-
-  ngOnInit() {
+  ) {
     this.productForm = this.formBuilder.group({
       name: [null, Validators.required],
       brand: [null, Validators.required],
@@ -48,11 +44,13 @@ export class ProductEditComponent implements OnInit {
       //  discount: (this.aObj.discount !== undefined) ? this.aObj.discount : null,
       description: [null, Validators.required],
       // specifications:[null, Validators.nullValidator],
-      image: [null, Validators.required],
+      image: [null, Validators.required]
       // email: [null, Validators.required]
     });
+  }
 
-    if (this.router.snapshot.url.length === 2) {
+  ngOnInit() {
+    if (this.router.snapshot.url[1].path.length > 2) {
       this.isSaved = true;
       if (this.aService.aSendObj != null) {
         this.aObj = this.aService.aSendObj;
@@ -82,13 +80,14 @@ export class ProductEditComponent implements OnInit {
   }
 
   getData(id: string) {
-    this.aService.getDataByID(id).subscribe(data => {
-      this.aObj = data[0];
-      this.setData();
-    },
+    this.aService.getDataByID(id).subscribe(
+      data => {
+        this.aObj = data[0];
+        this.setData();
+      },
       err => {
         alert('Invalid Data Found!');
-        this.directrouter.navigate(['/products']);
+        this.directrouter.navigate(['/product']);
       }
     );
   }
@@ -98,69 +97,66 @@ export class ProductEditComponent implements OnInit {
       name: this.aObj.name,
       brand: this.aObj.brand,
       description: this.aObj.description,
-      price: (this.aObj.price !== undefined) ? this.aObj.price : 0,
-      discount: (this.aObj.discount !== undefined) ? this.aObj.discount : 0 ,
+      price: this.aObj.price !== undefined ? this.aObj.price : 0,
+      discount: this.aObj.discount !== undefined ? this.aObj.discount : 0,
       image: this.aObj.image
     });
   }
 
   list() {
-    this.directrouter.navigate(['/products']);
+    this.directrouter.navigate(['/product']);
   }
 
   new() {
-    this.directrouter.navigate(['/product/']);
+    this.productForm.reset();
+    this.directrouter.navigate(['/product/0']);
   }
 
   delete() {
-    this.directrouter.navigate(['/products']);
-    this.aService
-      .deleteData(this.aObj._id)
-      .subscribe(
-        res => {
-          // console.log('Deleted Suceefully --> ' + JSON.stringify(res));
-          this.list();
-        },
-        err => {
-          console.error(JSON.stringify(err));
-          alert('Something Went wrong!');
-          this.directrouter.navigate(['/product/', this.aObj._id]);
-        }
-      );
+    this.directrouter.navigate(['/product']);
+    this.aService.deleteData(this.aObj._id).subscribe(
+      res => {
+        // console.log('Deleted Suceefully --> ' + JSON.stringify(res));
+        this.list();
+      },
+      err => {
+        console.error(JSON.stringify(err));
+        alert('Something Went wrong!');
+        this.directrouter.navigate(['/product/', this.aObj._id]);
+      }
+    );
   }
 
   onFormSubmit(form: NgForm) {
     // console.log(form);
-      if (this.isSaved) {
-        this.aService
-          .updateData(this.aObj._id, form)
-          .subscribe(
-            res => {
-              this.directrouter.navigate(['/product/', this.aObj._id]);
-            },
-            err => {
-              console.error(JSON.stringify(err));
-              alert('Something Went wrong!');
-            }
-          );
-      } else {
-        this.aService.createData(form).subscribe(
-          res => {
-            // console.log(res);
-            this.isSaved = false;
-            // this.directrouter.navigate(['/product/', res.insertedIds[0]]);
-            const cID = res['insertedIds'][0];
-            this.directrouter.navigate(['/product/', cID]);
-          },
-          err => {
-            if (err.status === 500) {
-              alert('Duplicate Data Entry, Please provide new again');
-            } else {
-              console.error(JSON.stringify(err));
-              alert('Something Went wrong!');
-            }
+    if (this.isSaved) {
+      this.aService.updateData(this.aObj._id, form).subscribe(
+        res => {
+          this.directrouter.navigate(['/product/', this.aObj._id]);
+        },
+        err => {
+          console.error(JSON.stringify(err));
+          alert('Something Went wrong!');
+        }
+      );
+    } else {
+      this.aService.createData(form).subscribe(
+        res => {
+          // console.log(res);
+          this.isSaved = false;
+          // this.directrouter.navigate(['/product/', res.insertedIds[0]]);
+          const cID = res['insertedIds'][0];
+          this.directrouter.navigate(['/product/', cID]);
+        },
+        err => {
+          if (err.status === 500) {
+            alert('Duplicate Data Entry, Please provide new again');
+          } else {
+            console.error(JSON.stringify(err));
+            alert('Something Went wrong!');
           }
-         );
-       }
+        }
+      );
+    }
   }
 }

@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit {
   }
 
   new() {
-    this.router.navigate(['/product/']);
+    this.router.navigate(['/product/0']);
   }
 
   refresh() {
