@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  database: 'nodeMongo',
+  database: 'mycrm',
   aBaseUrl: 'https://pritam-node.herokuapp.com/'
 };
