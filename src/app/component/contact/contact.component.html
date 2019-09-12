@@ -24,11 +24,11 @@
 			<tr *ngFor="
     let aObj of aList;
     let i = index
-  " [attr.data-index]="i">
+  " [attr.data-index]="i" (click)="OnClickEvent(aObj, i)">
 				<td>{{i+1}}</td>
-				<td><a routerLink="/contact/{{aObj._id}}">{{aObj.name}}</a></td>
-				<td><a routerLink="/contact/{{aObj._id}}">{{aObj.phone}}</a></td>
-        <td><a routerLink="/contact/{{aObj._id}}">{{aObj.email}}</a></td>
+				<td><a>{{aObj.fname}}</a></td>
+				<td><a>{{aObj.contactrows[0].no}}</a></td>
+        <td><a>{{aObj.emailrows[0].email}}</a></td>
 			</tr>
 		</tbody>
 	</table>

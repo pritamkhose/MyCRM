@@ -31,7 +31,7 @@ export class Address {
 
 export class Phone {
   type: string;
-  number: string;
+  no: string;
   primary: boolean;
 }
 

@@ -1,42 +1,69 @@
 .mat-form-field {
-    display: flow-root;
-    position: relative;
-    text-align: left;
+  // display: flow-root;
+  position: relative;
+  text-align: left;
+  margin-right: 10px;
+}
+
+.mat-icon {
+ margin-right: 20px;
 }
 
 .form-row {
-  margin: 20px;
+margin: 10px;
 }
 
 .btnmargin {
-  margin-left:20px;
-  margin-bottom:10px;
+margin-left:20px;
+margin-bottom:10px;
+}
+
+.btnmarginall {
+margin-right:20px;
+font-size: small;
+padding: 3px;
+}
+
+.marginright {
+margin-right:20px;
+}
+
+.btnremove {
+padding: 3px;
+font-size: small;
+margin-left: 3px;
 }
 
 .button-right {
-  float: right;
-  margin-top:10px;
+float: right;
+margin-top:10px;
 }
 
 .textarea {
-   width: 100%;
+ width: 100%;
 }
 
 .inputright {
-    text-align: right;
+  text-align: right;
 }
 
 .topmargin15px {
-   margin-top:15px;
+ margin-top:15px;
 }
 
 h5 {
-  margin-left: 30px;
+margin-left: 30px;
 }
 
 .table td {
-  vertical-align: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
+vertical-align: inherit;
+padding-top: 0;
+padding-bottom: 0;
+margin-bottom: 0rem;
 }
 
+.table {
+  width: 97%;
+  max-width: 97%;
+  margin-bottom: 0rem;
+}

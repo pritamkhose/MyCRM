@@ -7,61 +7,47 @@
   </button>
 </div>
 <form class="form-row" [formGroup]="aForm" (ngSubmit)="onFormSubmit(aForm.value)">
-  <div class="col-md-2 mb-3">
-    <mat-form-field class="example-full-width">
-      <mat-label>Title</mat-label>
-      <mat-select id="title" name="title" formControlName="title" [errorStateMatcher]="matcher" required>
-        <mat-option *ngFor="let atitle of titleList" [value]="atitle">
-          {{atitle}}
-        </mat-option>
-      </mat-select>
-      <mat-error>
-        <span *ngIf="!aForm.get('title').valid && aForm.get('title').touched">Select Title</span>
-      </mat-error>
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <mat-select id="title" name="title" formControlName="title" [errorStateMatcher]="matcher" required>
+      <mat-option *ngFor="let atitle of titleList" [value]="atitle">
+        {{atitle}}
+      </mat-option>
+    </mat-select>
+    <mat-error>
+      <span *ngIf="!aForm.get('title').valid && aForm.get('title').touched">Select Title</span>
+    </mat-error>
+  </mat-form-field>
 
-  <div class="col-md-5 mb-3">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="First Name" formControlName="fname" [errorStateMatcher]="matcher" required />
-      <mat-error>
-        <span *ngIf="!aForm.get('fname').valid && aForm.get('fname').touched">Enter First Name</span>
-      </mat-error>
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <input matInput placeholder="First Name" formControlName="fname" [errorStateMatcher]="matcher" required />
+    <mat-error>
+      <span *ngIf="!aForm.get('fname').valid && aForm.get('fname').touched">Enter First Name</span>
+    </mat-error>
+  </mat-form-field>
 
-  <div class="col-md-5 mb-3">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Last Name" formControlName="lname" [errorStateMatcher]="matcher" />
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <input matInput placeholder="Last Name" formControlName="lname" [errorStateMatcher]="matcher" />
+  </mat-form-field>
 
-  <div class="col-md-6 mb-3">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Company Name" formControlName="company" [errorStateMatcher]="matcher" />
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <input matInput placeholder="Company Name" formControlName="company" [errorStateMatcher]="matcher" />
+  </mat-form-field>
 
-  <div class="col-md-6 mb-3">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Nick Name" formControlName="nickname" [errorStateMatcher]="matcher" />
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <input matInput placeholder="Nick Name" formControlName="nickname" [errorStateMatcher]="matcher" />
+  </mat-form-field>
 
-  <div class="col-md-12 mb-3">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Profile image URL" formControlName="image" [errorStateMatcher]="matcher" required />
-      <mat-error>
-        <span *ngIf="!aForm.get('image').valid && aForm.get('image').touched">Enter Profile image URL</span>
-      </mat-error>
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <input matInput placeholder="Profile image URL" formControlName="image" [errorStateMatcher]="matcher" required />
+    <mat-error>
+      <span *ngIf="!aForm.get('image').valid && aForm.get('image').touched">Enter Profile image URL</span>
+    </mat-error>
+  </mat-form-field>
 
-  <div class="col-md-12 mb-3">
-    <mat-form-field class="example-full-width">
-      <textarea rows="2" matInput placeholder="Product description" formControlName="description"></textarea>
-    </mat-form-field>
-  </div>
+  <mat-form-field>
+    <textarea rows="2" matInput placeholder="Product description" formControlName="description"></textarea>
+  </mat-form-field>
 
   <mat-card class="col-md-12 mb-3" style="box-sizing: border-box;">
     <div class="table-responsive form-group">
@@ -75,7 +61,7 @@
         <tbody>
           <tr *ngFor="let row of aForm.get('contactrows')?.controls;let index = index;">
             <td>
-              <mat-form-field class="example-full-width">
+              <mat-form-field>
                 <mat-label>Contact Type</mat-label>
                 <mat-select [formControl]="row.get('type')" required>
                   <mat-option *ngFor="let phtype of phoneTypeList" [value]="phtype">
@@ -85,7 +71,7 @@
               </mat-form-field>
             </td>
             <td>
-              <mat-form-field class="example-full-width">
+              <mat-form-field>
                 <input [formControl]="row.get('no')" matInput placeholder="Contact Number" [errorStateMatcher]="matcher"
                   required />
                 <mat-error>
@@ -117,7 +103,7 @@
         <tbody>
           <tr *ngFor="let row of aForm.get('emailrows')?.controls;let index = index;">
             <td>
-              <mat-form-field class="example-full-width">
+              <mat-form-field>
                 <mat-label>Email Type</mat-label>
                 <mat-select [formControl]="row.get('type')" required>
                   <mat-option *ngFor="let etype of emailTypeList" [value]="etype">
@@ -127,7 +113,7 @@
               </mat-form-field>
             </td>
             <td>
-              <mat-form-field class="example-full-width">
+              <mat-form-field>
                 <input [formControl]="row.get('email')" matInput placeholder="Email Number"
                   [errorStateMatcher]="matcher" required />
                 <mat-error>
@@ -156,10 +142,10 @@
             <mat-icon color="green" (click)='onAddWebsiteRow()' *ngIf="aForm.get('websiterows')">add</mat-icon>
           </div>
         </thead>
-        <tbody>
+        <tbody *ngIf="aForm.get('websiterows')?.controls.length > 0">
           <tr *ngFor="let row of aForm.get('websiterows')?.controls;let index = index;">
             <td>
-              <mat-form-field class="example-full-width">
+              <mat-form-field>
                 <mat-label>Website Type</mat-label>
                 <mat-select [formControl]="row.get('type')" required>
                   <mat-option *ngFor="let webtype of websiteTypeList" [value]="webtype">
@@ -169,7 +155,7 @@
               </mat-form-field>
             </td>
             <td>
-              <mat-form-field class="example-full-width">
+              <mat-form-field>
                 <input [formControl]="row.get('website')" matInput placeholder="Website" [errorStateMatcher]="matcher"
                   required />
                 <mat-error>
@@ -189,13 +175,140 @@
     </div>
   </mat-card>
 
+  <mat-card class="col-md-12 mb-3" style="box-sizing: border-box;">
+    <div class="table-responsive form-group">
+      <table class="table">
+        <thead>
+          <div class="row">
+            <h5>Address</h5>&nbsp;&nbsp;
+            <mat-icon color="green" (click)='onAddAddressRow()' *ngIf="aForm.get('addressrows')">add</mat-icon>
+          </div>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of aForm.get('addressrows')?.controls;let index = index;">
+            <td>
+              <div>
+                <!-- <mat-icon color="red" (click)="onRemoveAddressRow(index)">remove</mat-icon> -->
+
+                <button class="btn btn-danger btnmarginall" (click)="onRemoveAddressRow(index)">Remove</button>
+                <mat-checkbox class="marginright" [formControl]="row.get('primary')">Primary</mat-checkbox>
+
+                <mat-form-field>
+                  <mat-label>Address Type</mat-label>
+                  <mat-select [formControl]="row.get('type')" required>
+                    <mat-option *ngFor="let atype of addressTypeList" [value]="atype">
+                      {{atype}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input [formControl]="row.get('addline1')" matInput placeholder="Address Line 1"
+                    [errorStateMatcher]="matcher" required />
+                  <mat-error>
+                    <span *ngIf="!row.get('addline1').valid && row.get('addline1').touched">Enter Address Line 1</span>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field class="">
+                  <input [formControl]="row.get('addline2')" matInput placeholder="Address Line 2"
+                    [errorStateMatcher]="matcher" />
+                  <mat-error>
+                    <span *ngIf="!row.get('addline2').valid && row.get('addline2').touched">Enter Address Line 2</span>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input [formControl]="row.get('landmark')" matInput placeholder="Landmark"
+                    [errorStateMatcher]="matcher" />
+                  <mat-error>
+                    <span *ngIf="!row.get('landmark').valid && row.get('landmark').touched">Enter Landmark</span>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input [formControl]="row.get('area')" matInput placeholder="Area" [errorStateMatcher]="matcher"
+                    required />
+                  <mat-error>
+                    <span *ngIf="!row.get('area').valid && row.get('area').touched">Enter Area</span>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="countryArr.length >= 0">
+                  <input list="countryArrList" name="filterCountry" [(ngModel)]="filterCountry" id="filterCountry"
+                    (change)="getState($event.target.value)" [formControl]="row.get('country')" matInput
+                    placeholder="Country" [errorStateMatcher]="matcher" required />
+                  <mat-error>
+                    <span *ngIf="!row.get('country').valid && row.get('country').touched">Enter Country</span>
+                  </mat-error>
+                  <datalist id="countryArrList">
+                    <option *ngFor="let obj of countryArr" id="{{ obj.id }}" value="{{ obj.name }}">{{ obj.name }}
+                    </option>
+                  </datalist>
+                  <mat-option *ngIf="isCountryLoading" class="is-loading">
+                    <mat-spinner diameter="30"></mat-spinner>
+                  </mat-option>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="stateArr.length >= 0">
+                  <input list="stateArrList" name="filterState" [(ngModel)]="filterState" id="filterState"
+                    (change)="getCity($event.target.value)" [formControl]="row.get('state')" matInput
+                    placeholder="State" [errorStateMatcher]="matcher" required />
+                  <mat-error>
+                    <span *ngIf="!row.get('state').valid && row.get('state').touched">Enter State</span>
+                  </mat-error>
+                  <datalist id="stateArrList">
+                    <option *ngFor="let obj of stateArr" value="{{ obj.name }}">{{obj.name}}</option>
+                  </datalist>
+                  <mat-option *ngIf="isStateLoading" class="is-loading">
+                    <mat-spinner diameter="30">
+                    </mat-spinner>
+                  </mat-option>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input [formControl]="row.get('dist')" matInput placeholder="District" [errorStateMatcher]="matcher"
+                    required />
+                  <mat-error>
+                    <span *ngIf="!row.get('dist').valid && row.get('dist').touched">Enter District</span>
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field *ngIf="cityArr.length >= 0">
+                  <input list="cityArrList" name="filterCity" [(ngModel)]="filterCity" id="filterCity"
+                    [formControl]="row.get('city')" matInput placeholder="City" [errorStateMatcher]="matcher"
+                    required />
+                  <mat-error>
+                    <span *ngIf="!row.get('city').valid && row.get('city').touched">Enter City</span>
+                  </mat-error>
+                  <datalist id="cityArrList">
+                    <option *ngFor="let obj of cityArr" value="{{ obj.name }}">{{obj.name}}</option>
+                  </datalist>
+                  <mat-option *ngIf="isCountryLoading" class="is-loading">
+                    <mat-spinner diameter="30"></mat-spinner>
+                  </mat-option>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input [formControl]="row.get('pin')" matInput placeholder="Pin" [errorStateMatcher]="matcher"
+                    required />
+                  <mat-error>
+                    <span *ngIf="!row.get('pin').valid && row.get('pin').touched">Enter Pin</span>
+                  </mat-error>
+                </mat-form-field>
+
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </mat-card>
 
   <br />
   <div class="button-right">
     <button style="margin-bottom:10px;" class="btn btn-success" type="submit" [disabled]="!aForm.valid">Save</button>
     <button *ngIf="this.isSaved" class="btn btn-warning btnmargin" (click)="delete()"
       [disabled]="!aForm.valid">Delete</button>
-
-    <button class="btn btn-warning btnmargin" (click)="test()">test</button>
   </div>
 </form>
