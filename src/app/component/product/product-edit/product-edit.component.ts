@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import { ActivatedRoute, NavigationStart } from '@angular/router';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { AlertService } from '../../../service/alert.service';
 
 import {
   FormControl,
@@ -29,12 +29,14 @@ export class ProductEditComponent implements OnInit {
   matcher = new MyErrorStateMatcher();
   isSaved = false;
   totalPrice = 0;
+  onBackReload = true;
 
   constructor(
     private directrouter: Router,
     private router: ActivatedRoute,
     private aService: ProductService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private alertService: AlertService,
   ) {
     this.productForm = this.formBuilder.group({
       name: [null, Validators.required],
@@ -47,14 +49,24 @@ export class ProductEditComponent implements OnInit {
       image: [null, Validators.required]
       // email: [null, Validators.required]
     });
+    directrouter.events
+      .subscribe((event: NavigationStart) => {
+        if (event.navigationTrigger === 'popstate') {
+          if (this.onBackReload) {
+            this.onBackReload = false;
+            this.list();
+          }
+        }
+      });
   }
 
   ngOnInit() {
     if (this.router.snapshot.url[1].path.length > 2) {
       this.isSaved = true;
-      if (this.aService.aSendObj != null) {
+      if (this.aService.aSendObj != null && this.aService.aSendObj != undefined) {
         this.aObj = this.aService.aSendObj;
         this.setData();
+        this.updateTotalPrice();
       } else {
         this.getData(this.router.snapshot.url[1].path);
       }
@@ -63,7 +75,7 @@ export class ProductEditComponent implements OnInit {
 
   updateTotalPrice() {
     const price = this.productForm.get('price').value;
-    if (price !== undefined) {
+    if (price !== undefined && price != null) {
       let d = this.productForm.get('discount').value;
       if (d === undefined) {
         d = 0;
@@ -82,8 +94,14 @@ export class ProductEditComponent implements OnInit {
   getData(id: string) {
     this.aService.getDataByID(id).subscribe(
       data => {
-        this.aObj = data[0];
-        this.setData();
+        if (this.aObj != null && this.aObj != undefined) {
+          this.aObj = data[0];
+          this.setData();
+        } else {
+          alert('Invalid Data Found!');
+          this.directrouter.navigate(['/product']);
+        }
+
       },
       err => {
         alert('Invalid Data Found!');
@@ -108,21 +126,30 @@ export class ProductEditComponent implements OnInit {
   }
 
   new() {
+    this.isSaved = false;
+    this.totalPrice = 0;
     this.productForm.reset();
     this.directrouter.navigate(['/product/0']);
   }
 
   delete() {
+    this.productForm.disabled;
     this.directrouter.navigate(['/product']);
     this.aService.deleteData(this.aObj._id).subscribe(
       res => {
-        // console.log('Deleted Suceefully --> ' + JSON.stringify(res));
-        this.list();
+        if (res['ok'] == '1') {
+          // this.directrouter.navigate(['/product']); // this.list();
+          // console.log('Deleted --> ' + (res['ok']));
+          // this.aForm.disabled;
+          this.alertService.toastrError('Deleted');
+        } else {
+          console.log('Deleted --> ' + JSON.stringify(res));
+          this.alertService.toastrError('Unable to Delete');
+        }
       },
       err => {
         console.error(JSON.stringify(err));
         alert('Something Went wrong!');
-        this.directrouter.navigate(['/product/', this.aObj._id]);
       }
     );
   }
@@ -133,6 +160,7 @@ export class ProductEditComponent implements OnInit {
       this.aService.updateData(this.aObj._id, form).subscribe(
         res => {
           this.directrouter.navigate(['/product/', this.aObj._id]);
+          this.alertService.toastrSuccess('Saved Successfully !');
         },
         err => {
           console.error(JSON.stringify(err));
@@ -143,10 +171,11 @@ export class ProductEditComponent implements OnInit {
       this.aService.createData(form).subscribe(
         res => {
           // console.log(res);
-          this.isSaved = false;
+          this.isSaved = true;
           // this.directrouter.navigate(['/product/', res.insertedIds[0]]);
           const cID = res['insertedIds'][0];
           this.directrouter.navigate(['/product/', cID]);
+          this.alertService.toastrSuccess('Created Successfully !');
         },
         err => {
           if (err.status === 500) {
@@ -159,4 +188,5 @@ export class ProductEditComponent implements OnInit {
       );
     }
   }
+
 }

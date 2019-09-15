@@ -9,6 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { LoginService } from './service/login.service';
 import { LocalStorageService } from './service/local-storage.service';
 import { ProductService } from './service/product.service';
 import { ContactService } from './service/contact.service';
+import { AlertService } from './service/alert.service';
 
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider,
   FacebookLoginProvider, LinkedInLoginProvider  } from 'angularx-social-login';
@@ -91,6 +93,7 @@ export function provideConfig() {
       enabled: environment.production
     }),
     BrowserAnimationsModule,
+    ToastrModule.forRoot(), // ToastrModule added
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
@@ -106,6 +109,7 @@ export function provideConfig() {
     // FcmService,
     LoginService,
     LocalStorageService,
+    AlertService,
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig

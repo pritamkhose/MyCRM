@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { AlertService } from '../../../service/alert.service';
 
 import {
   FormControl,
@@ -25,6 +25,7 @@ import { MyErrorStateMatcher } from '../../../util/myerror-state-matcher';
   styleUrls: ['./contact-edit.component.scss']
 })
 export class ContactEditComponent implements OnInit {
+
   countryArr: any = [];
   stateArr: any = [];
   cityArr: any = [];
@@ -44,6 +45,7 @@ export class ContactEditComponent implements OnInit {
   aObj: any;
   matcher = new MyErrorStateMatcher();
   isSaved = false;
+  onBackReload = true;
 
   titleList = ['Mr.', 'Ms.', 'Mrs.', 'Dr.', 'Sir', 'Madam'];
   phoneTypeList = ['Mobile', 'Home', 'Work', 'Fax', 'Office', 'Others'];
@@ -62,8 +64,18 @@ export class ContactEditComponent implements OnInit {
     private directrouter: Router,
     private router: ActivatedRoute,
     private aService: ContactService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private alertService: AlertService,
   ) {
+    directrouter.events
+      .subscribe((event: NavigationStart) => {
+        if (event.navigationTrigger === 'popstate') {
+          if (this.onBackReload) {
+            this.onBackReload = false;
+            this.list();
+          }
+        }
+      });
     this.aForm = this.formBuilder.group({
       title: [null, Validators.required],
       fname: [null, Validators.required],
@@ -139,7 +151,7 @@ export class ContactEditComponent implements OnInit {
         dist: '',
         state: '',
         country: '',
-        pin: ''
+        pin: '',
       })
     );
   }
@@ -151,6 +163,9 @@ export class ContactEditComponent implements OnInit {
   ngOnInit() {
     if (this.router.snapshot.url[1].path.length > 2) {
       this.isSaved = true;
+      this.isCountryLoading = false;
+      this.isStateLoading = false;
+      this.isCityLoading = false;
       if (this.aService.aSendObj != null) {
         this.aObj = this.aService.aSendObj;
         this.setData();
@@ -172,8 +187,8 @@ export class ContactEditComponent implements OnInit {
           primary: true
         })
       );
+      this.getCountry();
     }
-    this.getCountry();
   }
 
   getData(id: string) {
@@ -190,14 +205,14 @@ export class ContactEditComponent implements OnInit {
   }
 
   setData() {
+    // console.log(this.aObj);
     this.aObj.contactrows.forEach((obj: Phone) => {
       this.contactrows.push(
         this.formBuilder.group({
           type: obj.type,
           no: obj.no,
           primary: obj.primary
-        })
-      );
+        }));
     });
     this.aObj.emailrows.forEach((obj: Email) => {
       this.emailrows.push(
@@ -205,8 +220,7 @@ export class ContactEditComponent implements OnInit {
           type: obj.type,
           email: obj.email,
           primary: obj.primary
-        })
-      );
+        }));
     });
     this.aObj.websiterows.forEach((obj: Website) => {
       this.websiterows.push(
@@ -214,8 +228,7 @@ export class ContactEditComponent implements OnInit {
           type: obj.type,
           website: obj.website,
           primary: obj.primary
-        })
-      );
+        }));
     });
     this.aObj.addressrows.forEach((obj: Address) => {
       this.addressrows.push(
@@ -230,20 +243,18 @@ export class ContactEditComponent implements OnInit {
           dist: obj.dist,
           state: obj.state,
           country: obj.country,
-          pin: obj.pin
-        })
-      );
+          pin: obj.pin,
+        }));
     });
 
-    this.aForm.patchValue({
-      //setValue
+    this.aForm.patchValue({ //setValue
       title: this.aObj.title,
       fname: this.aObj.fname,
-      lname: this.aObj.lname !== null ? this.aObj.lname : '',
-      nickname: this.aObj.nickname !== null ? this.aObj.nickname : '',
-      description: this.aObj.description !== null ? this.aObj.description : '',
-      company: this.aObj.company !== null ? this.aObj.company : '',
-      image: this.aObj.image
+      lname: (this.aObj.lname !== null) ? this.aObj.lname : '',
+      nickname: (this.aObj.nickname !== null) ? this.aObj.nickname : '',
+      description: (this.aObj.description !== null) ? this.aObj.description : '',
+      company: (this.aObj.company !== null) ? this.aObj.company : '',
+      image: this.aObj.image,
       // contactrows: this.contactrows,
       // emailrows: this.emailrows,
       // websiterows: this.websiterows,
@@ -256,6 +267,11 @@ export class ContactEditComponent implements OnInit {
   }
 
   new() {
+    this.isSaved = false;
+    this.getCountry();
+    this.isCountryLoading = true;
+    this.isStateLoading = false;
+    this.isCityLoading = false;
     this.aForm.reset();
     this.aForm.removeControl('contactrows');
     this.contactrows = this.formBuilder.array([]);
@@ -290,8 +306,14 @@ export class ContactEditComponent implements OnInit {
     this.directrouter.navigate(['/contact']);
     this.aService.deleteData(this.aObj._id).subscribe(
       res => {
-        // console.log('Deleted Suceefully --> ' + JSON.stringify(res));
-        this.list();
+        if (res['ok'] == '1') {
+          // this.directrouter.navigate(['/product']);
+          // console.log('Deleted --> ' + (res['ok']));
+          this.alertService.toastrError('Deleted');
+        } else {
+          // console.log('Deleted --> ' + JSON.stringify(res));
+          this.alertService.toastrError('Unable to Delete');
+        }
       },
       err => {
         console.error(JSON.stringify(err));
@@ -304,23 +326,25 @@ export class ContactEditComponent implements OnInit {
   onFormSubmit(form: NgForm) {
     // console.log(form);
     if (this.isSaved) {
-      this.aService.updateData(this.aObj._id, form).subscribe(
-        res => {
-          this.directrouter.navigate(['/contact/', this.aObj._id]);
-        },
-        err => {
-          console.error(JSON.stringify(err));
-          alert('Something Went wrong!');
-        }
-      );
+      this.aService
+        .updateData(this.aObj._id, form)
+        .subscribe(
+          res => {
+            this.directrouter.navigate(['/contact/', this.aObj._id]);
+            this.alertService.toastrSuccess('Saved Successfully !');
+          },
+          err => {
+            console.error(JSON.stringify(err));
+            alert('Something Went wrong!');
+          }
+        );
     } else {
       this.aService.createData(form).subscribe(
         res => {
-          // console.log(res);
-          this.isSaved = false;
-          // this.directrouter.navigate(['/contact/', res.insertedIds[0]]);
+          this.isSaved = true;
           const cID = res['insertedIds'][0];
           this.directrouter.navigate(['/contact/', cID]);
+          this.alertService.toastrSuccess('Created Successfully !');
         },
         err => {
           if (err.status === 500) {
@@ -335,48 +359,59 @@ export class ContactEditComponent implements OnInit {
   }
 
   getCountry() {
-    this.countryArr = [];
-    this.isCountryLoading = true;
-    this.aService.getCountry().subscribe((data: Object) => {
-      this.isCountryLoading = false;
-      // console.log(data);
-      this.countryArr = data;
-    });
+    if (!this.isSaved) {
+      this.countryArr = [];
+      this.isCountryLoading = true;
+      this.aService.getCountry()
+        .subscribe((data: Object) => {
+          this.isCountryLoading = false;
+          // console.log(data);
+          this.countryArr = data;
+        });
+    }
+
   }
 
   getState(event) {
-    let id;
-    for (let m = 0; m < this.countryArr.length; m++) {
-      if (event === this.countryArr[m].name) {
-        id = this.countryArr[m].id;
-        break;
+    if (!this.isSaved) {
+      let id;
+      for (let m = 0; m < this.countryArr.length; m++) {
+        if (event === this.countryArr[m].name) {
+          id = this.countryArr[m].id;
+          break;
+        }
       }
-    }
 
-    this.stateArr = [];
-    this.cityArr = [];
-    this.isStateLoading = true;
-    this.aService.getState(parseInt(id)).subscribe((data: Object) => {
-      this.isStateLoading = false;
-      this.stateArr = data;
-    });
+      this.stateArr = [];
+      this.cityArr = [];
+      this.isStateLoading = true;
+      this.aService.getState(parseInt(id))
+        .subscribe((data: Object) => {
+          this.isStateLoading = false;
+          this.stateArr = data;
+        });
+    }
   }
 
   getCity(event) {
-    let id;
-    for (let m = 0; m < this.stateArr.length; m++) {
-      if (event === this.stateArr[m].name) {
-        id = this.stateArr[m].id;
-        break;
+    if (!this.isSaved) {
+      let id;
+      for (let m = 0; m < this.stateArr.length; m++) {
+        if (event === this.stateArr[m].name) {
+          id = this.stateArr[m].id;
+          break;
+        }
       }
-    }
 
-    this.cityArr = [];
-    this.filterCity = '';
-    this.isCityLoading = true;
-    this.aService.getCity(parseInt(id)).subscribe((data: Object) => {
-      this.isCityLoading = false;
-      this.cityArr = data;
-    });
+      this.cityArr = [];
+      this.filterCity = '';
+      this.isCityLoading = true;
+      this.aService.getCity(parseInt(id))
+        .subscribe((data: Object) => {
+          this.isCityLoading = false;
+          this.cityArr = data;
+        });
+    }
   }
+
 }
