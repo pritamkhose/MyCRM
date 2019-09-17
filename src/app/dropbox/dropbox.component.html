@@ -1,0 +1,51 @@
+<div class="button-row">
+  <h4>
+    Upload Files
+  </h4>
+  <div *ngIf="currentFileUpload" class="progress">
+    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
+      attr.aria-valuenow="{{ progress.percentage }}" aria-valuemin="0" aria-valuemax="100"
+      [ngStyle]="{ width: progress.percentage + '%' }">
+      {{ progress.percentage }}%
+    </div>
+  </div>
+
+  <label class="btn btn-default">
+    <input type="file" (change)="selectFile($event)" />
+  </label>
+  <button style="margin-left:20px; margin-bottom:10px;" class="btn btn-primary" [disabled]="!isUploading"
+    (click)="upload()">
+    Upload
+  </button>
+</div>
+<div class="button-row">
+  <button *ngFor="let path of pathArr" style="margin-left:10px; margin-bottom:10px;" (click)="selectpath(path)"
+    class="btn btn-warning">
+    {{path.name}}</button>
+</div>
+<div class="table-responsive">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>No.</th>
+        <th> </th>
+        <th>Name</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="
+      let dataObj of driveFileList;
+      let i = index
+    " [attr.data-index]="i">
+        <td>{{i+1}}</td>
+        <td><span *ngIf="dataObj['.tag'] === 'file'; then file_content ;else folder_content"></span></td>
+        <td><a (click)="dropboxDownloadFileName(dataObj)">{{dataObj.name}}</a></td>
+        <td><button  class="btn btn-danger" (click)="deleteFile(dataObj.path_display)">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #file_content><span class="fa fa-file tdstyle"></span></ng-template>
+<ng-template #folder_content><span class="fa fa-folder tdstyle"></span></ng-template>

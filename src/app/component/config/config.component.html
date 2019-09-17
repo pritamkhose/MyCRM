@@ -1,1 +1,187 @@
-<p>config works!</p>
+<form [formGroup]="aForm" (ngSubmit)="onFormSubmit(aForm.value)">
+
+	<div class="button-row">
+		<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-info"
+           (click)="refresh()">
+          Refresh
+  </button>
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-primary"
+           (click)="reset()">
+          Reset
+  </button>
+    <div class="button-right">
+    <button style="margin-bottom:10px;" class="btn btn-success" type="submit" [disabled]="!aForm.valid">Save</button>
+  </div>
+</div>
+
+<div class="form-row" > 
+
+	<mat-card>
+		<div class="table-responsive form-group">
+			<table class="table">
+				<thead>
+						<h6><b>Title</b> &nbsp;&nbsp;<mat-icon color="green" (click)='onAddRow("title")' *ngIf="aForm.get('titlerows')">add</mat-icon></h6>
+				</thead>
+				<tbody>
+         <div cdkDropList (cdkDropListDropped)='drop($event, "title")'>
+            <tr cdkDrag *ngFor="let row of aForm.get('titlerows')?.controls;let index = index;">
+                <td >{{index+1}}.&nbsp;&nbsp;</td>
+                <td>
+                  <mat-form-field>
+                    <input [formControl]="row.get('type')" matInput placeholder="Title type" [errorStateMatcher]="matcher"
+                      required />
+                    <mat-error>
+                      <span *ngIf="!row.get('type').valid && row.get('type').touched">Enter Title type</span>
+                    </mat-error>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-icon (click)='onRemoveRow("title", index)'>remove</mat-icon>
+                </td>
+                <td>
+                  &nbsp;<mat-icon cdkDragHandle >reorder</mat-icon>
+                </td>
+              </tr>
+         </div>
+				</tbody>
+			</table>
+		</div>
+	</mat-card>
+
+	<mat-card>
+		<div class="table-responsive form-group">
+			<table class="table">
+				<thead>
+						<h6><b>Contact</b> &nbsp;&nbsp;
+						<mat-icon color="green" (click)='onAddRow("contact")' *ngIf="aForm.get('contactrows')">add</mat-icon></h6>
+				</thead>
+				<tbody>
+				 <div cdkDropList (cdkDropListDropped)='drop($event, "contact")'>
+            <tr cdkDrag *ngFor="let row of aForm.get('contactrows')?.controls;let index = index;">
+             <td>{{index+1}}.&nbsp;&nbsp;</td>
+             <td>
+              <mat-form-field >
+                <input [formControl]="row.get('type')" matInput placeholder="Contact type" [errorStateMatcher]="matcher"
+                  required />
+                <mat-error>
+                  <span *ngIf="!row.get('type').valid && row.get('type').touched">Enter Contact type</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+						<td>
+							<mat-icon (click)='onRemoveRow("contact",index)'>remove</mat-icon>
+						</td>
+            <td>
+              &nbsp;<mat-icon cdkDragHandle >reorder</mat-icon>
+            </td>
+					</tr>
+				 </div>
+				</tbody>
+			</table>
+		</div>
+	</mat-card>
+
+  <mat-card>
+		<div class="table-responsive form-group">
+			<table class="table">
+				<thead>
+						<h6><b>Email</b> &nbsp;&nbsp;
+						<mat-icon color="green" (click)='onAddRow("email")' *ngIf="aForm.get('emailrows')">add</mat-icon></h6>
+				</thead>
+				<tbody>
+					<div cdkDropList (cdkDropListDropped)='drop($event, "email")'>
+            <tr cdkDrag *ngFor="let row of aForm.get('emailrows')?.controls;let index = index;">
+             <td>{{index+1}}.&nbsp;&nbsp;</td>
+             <td>
+              <mat-form-field >
+                <input [formControl]="row.get('type')" matInput placeholder="Email type" [errorStateMatcher]="matcher"
+                  required />
+                <mat-error>
+                  <span *ngIf="!row.get('type').valid && row.get('type').touched">Enter Email type</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+						<td>
+							<mat-icon (click)='onRemoveRow("email",index)'>remove</mat-icon>
+						</td>
+            <td>
+              &nbsp;<mat-icon cdkDragHandle >reorder</mat-icon>
+            </td>
+					</tr>
+					</div>
+				</tbody>
+			</table>
+		</div>
+	</mat-card>
+
+  <mat-card>
+		<div class="table-responsive form-group">
+			<table class="table">
+				<thead>
+						<h6><b>Website </b>&nbsp;&nbsp;
+						<mat-icon color="green" (click)='onAddRow("website")' *ngIf="aForm.get('websiterows')">add</mat-icon></h6>
+				</thead>
+				<tbody>
+					<div cdkDropList (cdkDropListDropped)='drop($event, "website")'>
+            <tr cdkDrag *ngFor="let row of aForm.get('websiterows')?.controls;let index = index;">
+             <td>{{index+1}}.&nbsp;&nbsp;</td>
+             <td>
+              <mat-form-field >
+                <input [formControl]="row.get('type')" matInput placeholder="Website type" [errorStateMatcher]="matcher"
+                  required />
+                <mat-error>
+                  <span *ngIf="!row.get('type').valid && row.get('type').touched">Enter Website type</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+						<td>
+							<mat-icon (click)='onRemoveRow("website",index)'>remove</mat-icon>
+						</td>
+            <td>
+              &nbsp;<mat-icon cdkDragHandle >reorder</mat-icon>
+            </td>
+					</tr>
+					</div>
+				</tbody>
+			</table>
+		</div>
+	</mat-card>
+
+   <mat-card>
+		<div class="table-responsive form-group">
+			<table class="table">
+				<thead>
+						<h6><b>Address</b>&nbsp;&nbsp;
+						<mat-icon color="green" (click)='onAddRow("address")' *ngIf="aForm.get('addressrows')">add</mat-icon></h6>
+				</thead>
+				<tbody>
+					<div cdkDropList (cdkDropListDropped)='drop($event, "address")'>
+            <tr cdkDrag *ngFor="let row of aForm.get('addressrows')?.controls;let index = index;">
+             <td>{{index+1}}.&nbsp;&nbsp;</td>
+             <td>
+              <mat-form-field >
+                <input [formControl]="row.get('type')" matInput placeholder="Address type" [errorStateMatcher]="matcher"
+                  required />
+                <mat-error>
+                  <span *ngIf="!row.get('type').valid && row.get('type').touched">Enter Address type</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+						<td>
+							<mat-icon (click)='onRemoveRow("address",index)'>remove</mat-icon>
+						</td>
+            <td>
+              &nbsp;<mat-icon cdkDragHandle >reorder</mat-icon>
+            </td>
+					</tr>
+					</div>
+				</tbody>
+			</table>
+		</div>
+	</mat-card>
+
+</div>
+
+</form>

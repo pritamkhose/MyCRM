@@ -17,6 +17,9 @@
   <a *ngIf="isValidLogin" mat-list-item routerLink="/lead" (click)="onSidenavClose()">
     <mat-icon>create_new_folder</mat-icon> <span class="nav-caption">Lead</span>
   </a>
+  <a *ngIf="isValidLogin" mat-list-item routerLink="/documents" (click)="onSidenavClose()">
+    <mat-icon>folder_open</mat-icon> <span class="nav-caption">Documents</span>
+  </a>
   <a *ngIf="isValidLogin" mat-list-item routerLink="/report" (click)="onSidenavClose()">
     <mat-icon>bar_chart</mat-icon><span class="nav-caption">Report</span>
   </a>
@@ -32,6 +35,7 @@
     <button *ngIf="!isValidLogin" routerLink="/login" mat-menu-item (click)="onSidenavClose()"><mat-icon>logout</mat-icon>Login</button>
     <button *ngIf="!isValidLogin" routerLink="/signup" mat-menu-item (click)="onSidenavClose()"><mat-icon>person_add</mat-icon>Register</button>
     <button *ngIf="isValidLogin" routerLink="/profile" mat-menu-item (click)="onSidenavClose()"><mat-icon>account_circle</mat-icon>View profile</button>
+    <button *ngIf="isValidLogin" routerLink="/config" mat-menu-item (click)="onSidenavClose()"><mat-icon>settings_system_daydream</mat-icon>Setting</button>
     <button *ngIf="isValidLogin" (click)="logout()" mat-menu-item (click)="onSidenavClose()"><mat-icon>logout</mat-icon>Logout</button>
   </mat-menu>
 </mat-nav-list>

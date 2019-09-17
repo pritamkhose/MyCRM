@@ -19,6 +19,9 @@
            <li>
              <a routerLink="/lead"><mat-icon>create_new_folder</mat-icon>Lead</a>
           </li>
+          <li>
+            <a routerLink="/documents"><mat-icon>folder_open</mat-icon>Documents</a>
+          </li>
            <li>
              <a routerLink="/report"><mat-icon>bar_chart</mat-icon>Report</a>
           </li>
@@ -36,6 +39,7 @@
                   <button *ngIf="!isValidLogin" routerLink="/login" mat-menu-item><mat-icon>logout</mat-icon>Login</button>
                   <button *ngIf="!isValidLogin" routerLink="/signup" mat-menu-item><mat-icon>person_add</mat-icon>Register</button>
                   <button *ngIf="isValidLogin" routerLink="/profile" mat-menu-item><mat-icon>account_circle</mat-icon>View profile</button>
+                  <button *ngIf="isValidLogin" routerLink="/config" mat-menu-item><mat-icon>settings_system_daydream</mat-icon>Setting</button>
                   <button *ngIf="isValidLogin" (click)="logout()" mat-menu-item><mat-icon>logout</mat-icon>Logout</button>
                 </mat-menu>
           </li>

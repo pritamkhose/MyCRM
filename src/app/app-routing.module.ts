@@ -16,6 +16,8 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { ProductComponent } from './component/product/product.component';
 import { ProductEditComponent } from './component/product/product-edit/product-edit.component';
 
+import { DropboxComponent } from './dropbox/dropbox.component';
+
 const routes: Routes = [
   { path: 'home', component: DashboardComponent },
   // { path: '**', redirectTo: '/home', pathMatch: 'full' },
@@ -34,6 +36,8 @@ const routes: Routes = [
   { path: 'report', component: ReportComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'config', component: ConfigComponent },
+
+  { path: 'documents', component: DropboxComponent },
 
 ];
 

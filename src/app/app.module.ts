@@ -3,9 +3,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
-// import { ServiceWorkerModule } from '@angular/service-worker';
-// import { environment } from '../environments/environment';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
@@ -36,10 +33,16 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { ProductComponent } from './component/product/product.component';
 import { ProductEditComponent } from './component/product/product-edit/product-edit.component';
 
+import { DropboxComponent } from './dropbox/dropbox.component';
+import { DropboxService } from './dropbox/dropbox.service';
+
 import { LoginService } from './service/login.service';
 import { LocalStorageService } from './service/local-storage.service';
 import { ProductService } from './service/product.service';
 import { ContactService } from './service/contact.service';
+import { ConfigService} from './service/config.service';
+import { UploadFileService} from './service/uploadfile.service';
+import { FcmService} from './service/fcm.service';
 import { AlertService } from './service/alert.service';
 
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider,
@@ -84,7 +87,8 @@ export function provideConfig() {
     ProfileComponent,
     ProductComponent,
     ProductEditComponent,
-    ContactEditComponent
+    ContactEditComponent,
+    DropboxComponent
   ],
   imports: [
     BrowserModule,
@@ -102,14 +106,15 @@ export function provideConfig() {
     SocialLoginModule
   ],
   providers: [
-    // UserService,
     ProductService,
     ContactService,
-    // UploadFileService,
-    // FcmService,
+    ConfigService,
+    UploadFileService,
+    FcmService,
     LoginService,
     LocalStorageService,
     AlertService,
+    DropboxService,
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig

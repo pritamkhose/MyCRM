@@ -24,4 +24,18 @@ export class AlertService {
     });
   }
 
+  toastrOffline(message: string) {
+    this.toastr.warning('', message, {
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+    });
+  }
+
+  toastrOnline(message: string) {
+    this.toastr.success('', message, {
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+    });
+  }
+
 }
