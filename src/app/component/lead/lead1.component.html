@@ -1,0 +1,40 @@
+<div class="button-row">
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-info"
+           (click)="refresh()">
+          Refresh
+  </button>
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-primary"
+           (click)="new()">
+          New
+  </button>
+  <mat-form-field style="margin-left:20px; margin-bottom:10px;">
+    <input matInput 
+    (keyup)="applyFilter($event.target.value)" 
+    placeholder="Search">
+  </mat-form-field>
+</div>
+<div class="table-responsive">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>No.</th>
+				<th>Name</th>
+				<th>Probability</th>
+        <th>Priority</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="
+    let aObj of aList;
+    let i = index
+  " [attr.data-index]="i" (click)="OnClickEvent(aObj, i)">
+				<td>{{i+1}}</td>
+				<td><a>{{aObj.contact}}</a></td>
+				<td><a>{{aObj.probability}}</a></td>
+        <td><a>{{aObj.priority}}</a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>

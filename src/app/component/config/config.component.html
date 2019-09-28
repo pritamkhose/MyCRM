@@ -1,17 +1,19 @@
 <form [formGroup]="aForm" (ngSubmit)="onFormSubmit(aForm.value)">
 
-	<div class="button-row">
+<div class="button-row">
 		<button style="margin-left:20px; margin-bottom:10px;"
           class="btn btn-info"
+           type="button" 
            (click)="refresh()">
           Refresh
   </button>
 	<button style="margin-left:20px; margin-bottom:10px;"
           class="btn btn-primary"
+           type="button" 
            (click)="reset()">
           Reset
   </button>
-    <div class="button-right">
+  <div class="button-right">
     <button style="margin-bottom:10px;" class="btn btn-success" type="submit" [disabled]="!aForm.valid">Save</button>
   </div>
 </div>

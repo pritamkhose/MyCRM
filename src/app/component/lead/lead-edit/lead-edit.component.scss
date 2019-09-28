@@ -5,6 +5,33 @@
   margin-right: 10px;
 }
 
+mat-slider {
+  width: 200px;
+}
+
+ng5-slider {
+  width: 200px;
+}
+
+p{
+    text-align: right;
+}
+th{
+    text-align: center;
+}
+
+.btnmarginall {
+  margin-right:20px;
+  font-size: small;
+  padding: 3px;
+}
+
+.matlabel {
+  font-size: 12px;
+  font-weight: 500;
+  color: #673ab7;
+}
+
 .form-row {
   margin: 20px;
 }
@@ -47,9 +74,17 @@ h5 {
 
 .table td {
   vertical-align: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
+  padding: 0;
   margin-bottom: 0rem;
+
+}
+
+th {
+  padding: 5px;
+}
+
+.small50width {
+    width: 70px;
 }
 
 .table {

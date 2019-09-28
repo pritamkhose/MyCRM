@@ -1,0 +1,310 @@
+<form [formGroup]="aForm" (ngSubmit)="onFormSubmit(aForm.value)">
+	<div class="button-row" style="margin-left:20px">
+		<div>
+			<button type="button" class="btn btn-info" (click)="list()">List</button>
+      <button type="button" class="btn btn-primary"  (click)="new()">New</button>
+      <div class="button-right" style="margin-bottom:10px;">
+        <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!aForm.valid"
+          >Save</button>
+        <button
+          type="button"
+          *ngIf="this.isSaved"
+          class="btn btn-danger"
+          (click)="delete()"
+          [disabled]="!aForm.valid"
+        >Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    
+    <mat-form-field >
+      <input matInput placeholder="Lead Name" formControlName="leadname" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+
+    <mat-form-field >
+      <input matInput placeholder="Company Name" formControlName="company" [errorStateMatcher]="matcher" />
+    </mat-form-field>
+    
+    <mat-form-field >
+      <input matInput placeholder="Contact Name" formControlName="contact" [errorStateMatcher]="matcher" required />
+      <mat-error>
+        <span *ngIf="!aForm.get('contact').valid && aForm.get('contact').touched">Enter ontact name</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field >
+      <input matInput placeholder="Access Users" formControlName="accessusers" [errorStateMatcher]="matcher" required />
+      <mat-error>
+        <span *ngIf="!aForm.get('accessusers').valid && aForm.get('accessusers').touched">Enter access users</span>
+      </mat-error>
+    </mat-form-field>
+
+     <mat-form-field >
+      <input matInput placeholder="Assigned To" formControlName="assignedto" [errorStateMatcher]="matcher" required />
+      <mat-error>
+        <span *ngIf="!aForm.get('assignedto').valid && aForm.get('assignedto').touched">Enter Assigned to name</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field >
+      <textarea rows="2" matInput placeholder="Lead description" formControlName="description"></textarea>
+    </mat-form-field>
+    
+    <mat-form-field>
+      <input readonly matInput [matDatepicker]="picker" (click)="picker.open()" placeholder="Start date" formControlName="startDate" [errorStateMatcher]="matcher" required >
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input readonly matInput [matDatepicker]="pickerclose" (click)="pickerclose.open()" placeholder="Expected Close date" formControlName="closeDate" [errorStateMatcher]="matcher" required>
+      <mat-datepicker-toggle matSuffix [for]="pickerclose"></mat-datepicker-toggle>
+      <mat-datepicker #pickerclose></mat-datepicker>
+    </mat-form-field>
+
+      <!-- <input matInput placeholder="Probability" formControlName="probability" [errorStateMatcher]="matcher" /> -->
+      <div >
+       <mat-label class="matlabel">Probability</mat-label>
+        <!-- <mat-slider
+          thumbLabel
+          formControlName="probability"
+          [displayWith]="formatLabel"
+          tickInterval="1"
+          min="1"
+          max="100">
+        </mat-slider> -->
+        <ng5-slider thumbLabel formControlName="probability" [options]="{floor: 0, ceil: 100}"></ng5-slider>
+      </div>
+    
+
+    <mat-form-field >
+      <mat-label>Status</mat-label>
+      <mat-select id="status" name="status" formControlName="status" [errorStateMatcher]="matcher" required>
+        <mat-option *ngFor="let astatus of statusList" [value]="astatus">
+          {{astatus}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="!aForm.get('status').valid && aForm.get('status').touched">Select status</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field >
+      <mat-label>Lead priority</mat-label>
+      <mat-select id="priority" name="priority" formControlName="priority" [errorStateMatcher]="matcher" required>
+        <mat-option *ngFor="let apriority of priorityList" [value]="apriority">
+          {{apriority}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="!aForm.get('priority').valid && aForm.get('priority').touched">Select Lead priority</span>
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field >
+      <mat-label>Lead Source</mat-label>
+      <mat-select id="source" name="source" formControlName="source" [errorStateMatcher]="matcher" required>
+        <mat-option *ngFor="let asource of sourceList" [value]="asource">
+          {{asource}}
+        </mat-option>
+      </mat-select>
+      <mat-error>
+        <span *ngIf="!aForm.get('source').valid && aForm.get('source').touched">Select Lead Source</span>
+      </mat-error>
+    </mat-form-field>
+
+    <div>
+       <mat-label class="matlabel">Tag</mat-label>
+      <tag-input 
+        [formControlName]="'tagitems'"
+        [editable]="true"
+        (onTagEdited)="onTagEdited($event)"
+        [modelAsStrings]="true">
+      </tag-input>
+    </div>
+
+  <!-- <mat-card class="col-md-12 mb-3" style="box-sizing: border-box;">
+    <div class="table-responsive form-group">
+      <table class="table">
+        <thead>
+          <div class="row">
+            <h5>Contacts</h5>&nbsp;&nbsp;
+            <mat-icon color="green" (click)='onAddPhoneRow()' *ngIf="aForm.get('contactrows')">add</mat-icon>
+          </div>
+        </thead>
+       
+      </table>
+    </div>
+  </mat-card> -->
+
+   <mat-card class="col-md-12 mb-3" style="box-sizing: border-box;">
+    <div class="table-responsive form-group">
+      <table class="table">
+         <thead>
+  
+            <!-- <p>Product&nbsp;&nbsp;
+            <mat-icon color="green" (click)='onAddProductRow()' *ngIf="aForm.get('productrows')">add</mat-icon></p> -->
+            <div style="width:80px;">
+              <div style="width:60px; float:left; "><b>Product</b></div>
+              <div style="width:20px; float:right;"> <mat-icon color="green" (click)='onAddProductRow()' *ngIf="aForm.get('productrows')">add</mat-icon></div>
+            </div>
+        </thead>
+        <thead>
+            <th></th><th>#</th>
+            <th style="margin:4px;">Category</th>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Com.%</th>
+            <th>Com.$</th>
+            <th>Dis.%</th>
+            <th>Dis.$</th>
+            <th>Tax%</th>
+            <th>Amount</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of aForm.get('productrows')?.controls;let index = index;">
+            <td>
+              <!-- <p><mat-icon color="red" (click)="onRemoveProductRow(index)">remove</mat-icon></p> -->
+              <button class="btn btn-danger btnmarginall" (click)="onRemoveProductRow(index)">Remove</button>
+            </td>
+            <td>
+              <p style="text-align: center;">{{index+1}}</p>
+            </td>
+            <td>
+              <mat-form-field >
+                <mat-label>Product Type</mat-label>
+                <mat-select [formControl]="row.get('cat')" required>
+                  <mat-option *ngFor="let cat of catList" [value]="cat">
+                    {{cat}}
+                  </mat-option>
+                </mat-select>
+                 <mat-error>
+                  <span *ngIf="!row.get('cat').valid && row.get('cat').touched">Select Category</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field >
+                <input [formControl]="row.get('productname')" matInput placeholder="Product Name" [errorStateMatcher]="matcher"
+                  required />
+                <mat-error>
+                  <span *ngIf="!row.get('productname').valid && row.get('productname').touched">Enter Product name</span>
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="small50width" >
+                  <input required
+                  class="inputright"
+                  matInput
+                  placeholder="Qty"
+                  [formControl]="row.get('qty')"
+                  type="number" min="0" max="9999999999"
+                  [errorStateMatcher]="matcher"
+                  (ngModelChange)="updateItemPrice(row, index)"
+                />
+                <mat-error>
+                  <span
+                    *ngIf="!row.get('qty').valid && row.get('qty').touched"
+                    >Enter qty</span
+                  >
+                </mat-error>
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="small50width">
+                  <input required
+                  class="inputright"
+                  matInput
+                  placeholder="Price"
+                  [formControl]="row.get('price')"
+                  type="number" min="0" max="9999999999"
+                  [errorStateMatcher]="matcher"
+                  (ngModelChange)="updateItemPrice(row, index)"
+                />
+                <mat-error>
+                  <span
+                    *ngIf="!row.get('price').valid && row.get('price').touched"
+                    >Enter price</span
+                  >
+                </mat-error>
+              </mat-form-field>
+            </td>
+             <td>
+              <mat-form-field class="small50width">
+                  <input
+                  class="inputright"
+                  matInput
+                  placeholder="Com%"
+                  [formControl]="row.get('commissionpercent')"
+                  type="number" min="0" max="1000"
+                  (ngModelChange)="updateItemPrice(row, index)"
+                />
+              </mat-form-field>
+              </td>
+              <td>
+              <input [attr.disabled]="true" matInput class="small50width" [formControl]="row.get('commission')"/>
+              </td>
+              <td>
+              <mat-form-field class="small50width" >
+                  <input
+                  class="inputright"
+                  matInput
+                  placeholder="Discount%"
+                  [formControl]="row.get('discountpercent')"
+                  type="number" min="0" max="100"
+                  (ngModelChange)="updateItemPrice(row, index)"
+                />
+              </mat-form-field>
+              </td>
+              <td>
+              <input [attr.disabled]="true" matInput  class="small50width" [formControl]="row.get('discount')"/>
+              </td>
+             <td>
+              <mat-form-field class="small50width">
+                  <input
+                  class="inputright"
+                  matInput
+                  placeholder="Tax%"
+                  [formControl]="row.get('taxpercent')"
+                  type="number" min="0" max="100"
+                  (ngModelChange)="updateItemPrice(row, index)"
+                />
+              </mat-form-field>
+            </td>
+            <td>
+              <!-- <p class="small50width"[formControl]="row.get('amount')">{{getAmount(row.get('price').value,row.get('qty').value)}}</p> -->
+              <input [attr.disabled]="true" matInput  class="small50width" [formControl]="row.get('amount')"/>
+            </td>
+          </tr>
+        </tbody>
+        <thead>
+            <th></th><th></th><th></th><th></th>
+            <th>{{calculate.qty}}</th>
+            <th>{{calculate.price | number:'1.0-3'}}</th>
+            <th></th>
+            <th>{{calculate.com | number:'1.0-3'}}</th>
+            <th></th>
+            <th>{{calculate.dis | number:'1.0-3'}}</th>
+            <th></th>
+            <th>{{calculate.amt | number:'1.0-3'}}</th>
+        </thead>
+      </table>
+    </div>
+  </mat-card>
+
+
+  <br/>
+  <div class="button-right">
+    <button class="btn btn-success" type="submit" [disabled]="!aForm.valid">Save</button>
+    <button *ngIf="this.isSaved" class="btn btn-danger btnmargin" (click)="delete()"
+      [disabled]="!aForm.valid">Delete</button>
+  </div>
+</div>
+</form>

@@ -1,34 +1,39 @@
-<p>lead works!</p>
-Title
+<div class="button-row">
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-info"
+           (click)="refresh()">
+          Refresh
+  </button>
+	<button style="margin-left:20px; margin-bottom:10px;"
+          class="btn btn-primary"
+           (click)="new()">
+          New
+  </button>
+  <mat-form-field style="margin-left:20px;">
+    <input matInput 
+    (keyup)="applyFilter($event.target.value)" 
+    placeholder="Search">
+  </mat-form-field>
+</div>
+<div class="mat-elevation-z8">
 
-Access
-Select users allowed access
-Assigned To
-Products
-Contacts
-Close Date
-Tags
-Description
+  <mat-table [dataSource]="dataSource" matSort>
 
-Probability
+   <!-- <ng-container matColumnDef="accessusers">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Access users </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{row.accessusers}} </mat-cell>
+    </ng-container>
+   -->
 
-Amount
-USD
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
+      <mat-header-cell *cdkHeaderCellDef mat-sort-header>{{ column.header }}</mat-header-cell>
+      <mat-cell *cdkCellDef="let row">{{ column.cell(row) }}</mat-cell>
+    </ng-container>
 
-Commission
-USD
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; let i = index; columns: displayedColumns;" [attr.data-index]="i" (click)="OnClickEvent(row, i)">
+    </mat-row>
+  </mat-table>
 
-Stage
-Qualify
-
-Closed
-
-Status
-New
-
-Type
-New
-
-Source
-Select
-Identifier
+  <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+</div>

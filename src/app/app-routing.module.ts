@@ -11,6 +11,7 @@ import { ConfigComponent } from './component/config/config.component';
 import { ContactComponent } from './component/contact/contact.component';
 import { ContactEditComponent } from './component/contact/contact-edit/contact-edit.component';
 import { LeadComponent } from './component/lead/lead.component';
+import { LeadEditComponent } from './component/lead/lead-edit/lead-edit.component';
 import { ReportComponent } from './component/report/report.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { ProductComponent } from './component/product/product.component';
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'contact', component: ContactComponent },
   { path: 'contact/:id', component: ContactEditComponent },
   { path: 'lead', component: LeadComponent },
+  { path: 'lead/:id', component: LeadEditComponent },
   { path: 'product', component: ProductComponent },
   { path: 'product/:id', component: ProductEditComponent },
   { path: 'report', component: ReportComponent },

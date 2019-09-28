@@ -7,6 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from './material.module';
 import { ToastrModule } from 'ngx-toastr';
+import { TagInputModule } from 'ngx-chips';
+import { Ng5SliderModule } from 'ng5-slider';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -28,6 +31,7 @@ import { ConfigComponent } from './component/config/config.component';
 import { ContactComponent } from './component/contact/contact.component';
 import { ContactEditComponent } from './component/contact/contact-edit/contact-edit.component';
 import { LeadComponent } from './component/lead/lead.component';
+import { LeadEditComponent } from './component/lead/lead-edit/lead-edit.component';
 import { ReportComponent } from './component/report/report.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { ProductComponent } from './component/product/product.component';
@@ -83,6 +87,7 @@ export function provideConfig() {
     ConfigComponent,
     ContactComponent,
     LeadComponent,
+    LeadEditComponent,
     ReportComponent,
     ProfileComponent,
     ProductComponent,
@@ -98,6 +103,8 @@ export function provideConfig() {
     }),
     BrowserAnimationsModule,
     ToastrModule.forRoot(), // ToastrModule added
+    TagInputModule,
+    Ng5SliderModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,

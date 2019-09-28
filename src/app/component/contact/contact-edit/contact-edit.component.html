@@ -1,12 +1,25 @@
-<div>
-	<button class="btn btn-info btnmargin" (click)="list()">
-    List
-  </button>
-  <button class="btn btn-primary btnmargin" (click)="new()">
-    New
-  </button>
-</div>
-<form class="form-row" [formGroup]="aForm" (ngSubmit)="onFormSubmit(aForm.value)">
+<form [formGroup]="aForm" (ngSubmit)="onFormSubmit(aForm.value)">
+  	<div class="button-row" style="margin-left:20px">
+		<div>
+			<button type="button" class="btn btn-info" (click)="list()">List</button>
+      <button type="button" class="btn btn-primary"  (click)="new()">New</button>
+      <div class="button-right" style="margin-bottom:10px;">
+        <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!aForm.valid"
+          >Save</button>
+        <button
+          type="button"
+          *ngIf="this.isSaved"
+          class="btn btn-danger"
+          (click)="delete()"
+          [disabled]="!aForm.valid"
+        >Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="form-row">
     <mat-form-field >
       <mat-label>Title</mat-label>
       <mat-select id="title" name="title" formControlName="title" [errorStateMatcher]="matcher" required>
@@ -349,8 +362,9 @@
 
   <br />
   <div class="button-right">
-    <button style="margin-bottom:10px;" class="btn btn-success" type="submit" [disabled]="!aForm.valid">Save</button>
+    <button class="btn btn-success" type="submit" [disabled]="!aForm.valid">Save</button>
     <button *ngIf="this.isSaved" class="btn btn-danger btnmargin" (click)="delete()"
       [disabled]="!aForm.valid">Delete</button>
   </div>
+</div>
 </form>
