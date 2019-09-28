@@ -1,40 +1,40 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
-import { Router } from "@angular/router";
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Router } from '@angular/router';
 
-import { Lead } from "../lead.model";
-import { LeadService } from "../../service/lead.service";
+import { Lead } from './lead.model';
+import { LeadService } from '../../service/lead.service';
 
 // https://stackblitz.com/angular/dnbermjydavk?file=app%2Ftable-overview-example.ts
 // https://stackblitz.com/edit/dynamic-columns-mat-table?file=app%2Ftable-pagination-example.ts
 // https://code-maze.com/angular-material-table/
 
 @Component({
-  selector: "app-lead",
-  templateUrl: "./lead.component.html",
-  styleUrls: ["./lead.component.scss"]
+  selector: 'app-lead',
+  templateUrl: './lead.component.html',
+  styleUrls: ['./lead.component.scss']
 })
 export class LeadComponent implements OnInit {
-  
+
   columns = [
     {
-      columnDef: "accessusers",
-      header: "Access Users",
+      columnDef: 'accessusers',
+      header: 'Access Users',
       cell: (element: any) => `${element.accessusers}`
     },
     {
-      columnDef: "contact",
-      header: "Contact",
+      columnDef: 'contact',
+      header: 'Contact',
       cell: (element: any) => `${element.contact}`
     },
     {
-      columnDef: "probability",
-      header: "Probability",
+      columnDef: 'probability',
+      header: 'Probability',
       cell: (element: any) => `${element.probability}`
     },
     {
-      columnDef: "priority",
-      header: "Priority",
+      columnDef: 'priority',
+      header: 'Priority',
       cell: (element: any) => `${element.priority}`
     }
   ];
@@ -55,7 +55,7 @@ export class LeadComponent implements OnInit {
   }
 
   new() {
-    this.router.navigate(["/lead/0"]);
+    this.router.navigate(['/lead/0']);
   }
 
   refresh() {
@@ -64,7 +64,7 @@ export class LeadComponent implements OnInit {
 
   OnClickEvent(aObj, index: number) {
     this.aService.aSendObj = aObj;
-    this.router.navigate(["/lead/", aObj._id]);
+    this.router.navigate(['/lead/', aObj._id]);
   }
 
   applyFilter(filterValue: string) {

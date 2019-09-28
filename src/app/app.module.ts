@@ -44,6 +44,7 @@ import { LoginService } from './service/login.service';
 import { LocalStorageService } from './service/local-storage.service';
 import { ProductService } from './service/product.service';
 import { ContactService } from './service/contact.service';
+import { LeadService } from './service/lead.service';
 import { ConfigService} from './service/config.service';
 import { UploadFileService} from './service/uploadfile.service';
 import { FcmService} from './service/fcm.service';
@@ -115,6 +116,7 @@ export function provideConfig() {
   providers: [
     ProductService,
     ContactService,
+    LeadService,
     ConfigService,
     UploadFileService,
     FcmService,
