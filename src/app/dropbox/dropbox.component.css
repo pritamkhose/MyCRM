@@ -5,3 +5,13 @@
   vertical-align: top;
   /* border-top: 1px solid #dee2e6; */
 }
+
+.table td, .table th {
+    padding: 0rem;
+}
+
+.btn-danger {
+  padding: 6px;
+  font-size: small;
+  margin-left: 3px;
+}

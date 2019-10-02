@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>{{data['name']}}</h1>
+<div mat-dialog-content>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Properties</th>
+					<th>Details</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Type</td>
+					<td>{{data['.tag']}}</td>
+				</tr>
+				<tr *ngIf="data['.tag'] === 'file'">
+					<td>R/W</td>
+					<td>{{data['is_downloadable']}}</td>
+				</tr>
+				<tr *ngIf="data['.tag'] === 'file'">
+					<td>Size</td>
+					<td>{{data['size']}}</td>
+				</tr>
+				<tr *ngIf="data['.tag'] === 'file'">
+					<td>Last Modified</td>
+					<td>{{data['server_modified']}}</td>
+				</tr>
+        <tr>
+					<td>Path</td>
+					<td>{{data['path_lower']}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<div mat-dialog-actions>
+	<button mat-button [mat-dialog-close]="data">Cancel</button>
+</div>

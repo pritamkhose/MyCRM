@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Create New Folder</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput [(ngModel)]="data.foldername"  minlength="2" cdkFocusInitial>
+     <mat-error>
+        <span>Enter Valid Folder name</span>
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data.foldername">Ok</button>
+</div>

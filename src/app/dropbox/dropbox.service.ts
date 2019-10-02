@@ -28,6 +28,11 @@ export class DropboxService {
     return this.http.delete(this.aBaseUrl + 'dropboxDelete?fileName=' + fileName);
   }
 
+  public getdriveFileInfo(fileName) {
+    // console.log('get drive File infp --> ' + this.aBaseUrl + 'dropboxDelete?fileName=' + fileName);
+    return this.http.get(this.aBaseUrl + 'dropboxFileInfo?fileName=' + fileName);
+  }
+
   public uploadFile(file: File, folderName): Observable<HttpEvent<{}>> {
     const formdata: FormData = new FormData();
     formdata.append('file', file);

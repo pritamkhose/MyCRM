@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+// https://stackoverflow.com/questions/50907736/refreshing-the-page-results-in-404-error-angular-6
 import { PathLocationStrategy, LocationStrategy } from '@angular/common';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -38,7 +39,7 @@ import { ProfileComponent } from './component/profile/profile.component';
 import { ProductComponent } from './component/product/product.component';
 import { ProductEditComponent } from './component/product/product-edit/product-edit.component';
 
-import { DropboxComponent } from './dropbox/dropbox.component';
+import { DropboxComponent, CreateFolderDialog, InfoDialog } from './dropbox/dropbox.component';
 import { DropboxService } from './dropbox/dropbox.service';
 
 import { LoginService } from './service/login.service';
@@ -95,8 +96,11 @@ export function provideConfig() {
     ProductComponent,
     ProductEditComponent,
     ContactEditComponent,
-    DropboxComponent
+    DropboxComponent,
+    CreateFolderDialog,
+    InfoDialog,
   ],
+    entryComponents: [CreateFolderDialog, InfoDialog],
   imports: [
     BrowserModule,
     AppRoutingModule,

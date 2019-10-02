@@ -1,27 +1,33 @@
 <div class="button-row">
-  <h4>
-    Upload Files
-  </h4>
-  <div *ngIf="currentFileUpload" class="progress">
-    <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar"
-      attr.aria-valuenow="{{ progress.percentage }}" aria-valuemin="0" aria-valuemax="100"
-      [ngStyle]="{ width: progress.percentage + '%' }">
-      {{ progress.percentage }}%
-    </div>
-  </div>
+	<h4>
+		Upload Files
+	</h4>
+	<div *ngIf="currentFileUpload" class="progress">
+		<div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" attr.aria-valuenow="{{ progress.percentage }}"
+		 aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ width: progress.percentage + '%' }">
+			{{ progress.percentage }}%
+		</div>
+	</div>
 
-  <label class="btn btn-default">
+	<label class="btn btn-default">
     <input type="file" (change)="selectFile($event)" />
   </label>
   <button style="margin-left:20px; margin-bottom:10px;" class="btn btn-primary" [disabled]="!isUploading"
     (click)="upload()">
     Upload
   </button>
+   <button style="margin-left:10px; margin-bottom:10px;" (click)="newFolder()"
+    class="btn btn-success">
+    New Folder</button>
 </div>
 <div class="button-row">
   <button *ngFor="let path of pathArr" style="margin-left:10px; margin-bottom:10px;" (click)="selectpath(path)"
     class="btn btn-warning">
     {{path.name}}</button>
+
+  <button *ngIf="createNewfolderName.length > 1" style="margin-left:10px; margin-bottom:10px;" (click)="removeFolder()"
+    class="btn btn-success">
+    {{createNewfolderName}}</button>
 </div>
 <div class="table-responsive">
   <table class="table">
@@ -30,7 +36,8 @@
         <th>No.</th>
         <th> </th>
         <th>Name</th>
-        <th> </th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -41,7 +48,8 @@
         <td>{{i+1}}</td>
         <td><span *ngIf="dataObj['.tag'] === 'file'; then file_content ;else folder_content"></span></td>
         <td><a (click)="dropboxDownloadFileName(dataObj)">{{dataObj.name}}</a></td>
-        <td><button  class="btn btn-danger" (click)="deleteFile(dataObj.path_display)">Delete</button></td>
+        <td (click)="infoFile(dataObj.path_display)"><span class="fa fa-info tdstyle"></span></td>
+        <td><button class="btn btn-danger" (click)="deleteFile(dataObj.path_display)">Delete</button></td>
       </tr>
     </tbody>
   </table>
