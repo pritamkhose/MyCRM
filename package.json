@@ -24,6 +24,7 @@
     "@angular/router": "~8.2.0",
     "@angular/service-worker": "~8.2.0",
     "angularx-social-login": "^1.2.7",
+    "material-design-icons": "^3.0.1",
     "ng-connection-service": "^1.0.4",
     "ng5-slider": "^1.2.4",
     "ngx-chips": "^2.0.2",

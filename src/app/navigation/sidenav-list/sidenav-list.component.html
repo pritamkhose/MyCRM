@@ -12,7 +12,7 @@
     <mat-icon>assignment_ind</mat-icon> <span class="nav-caption">Contact</span>
   </a>
   <a *ngIf="isValidLogin" mat-list-item routerLink="/product" (click)="onSidenavClose()">
-    <mat-icon>grid_view</mat-icon><span class="nav-caption">Product</span>
+    <mat-icon>grid_on</mat-icon><span class="nav-caption">Product</span>
   </a>
   <a *ngIf="isValidLogin" mat-list-item routerLink="/lead" (click)="onSidenavClose()">
     <mat-icon>create_new_folder</mat-icon> <span class="nav-caption">Lead</span>
@@ -21,7 +21,7 @@
     <mat-icon>folder_open</mat-icon> <span class="nav-caption">Documents</span>
   </a>
   <a *ngIf="isValidLogin" mat-list-item routerLink="/report" (click)="onSidenavClose()">
-    <mat-icon>bar_chart</mat-icon><span class="nav-caption">Report</span>
+    <mat-icon>description</mat-icon><span class="nav-caption">Report</span>
   </a>
   <mat-list-item [matMenuTriggerFor]="menu">
       <span *ngIf="profilePic ; else elseBlock">

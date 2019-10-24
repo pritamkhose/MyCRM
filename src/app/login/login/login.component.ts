@@ -18,7 +18,9 @@ import {
 // client ID= 260588641171-3c0akgkm8j9ubqm6bn3vrqvqq5ou7re5.apps.googleusercontent.com
 // client Secert = ImW-r9lqXv4FWepHwvnGysAr
 // https://developers.facebook.com/apps/489434948455038/settings/basic/
+// https://developers.facebook.com/apps/489434948455038/fb-login/settings/
 // App ID= 489434948455038
+// https://stackoverflow.com/questions/37001004/facebook-login-message-url-blocked-this-redirect-failed-because-the-redirect
 
 // Login Validate Token for JWT
 // https://www.sitepoint.com/spa-social-login-google-facebook/
